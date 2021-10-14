@@ -22,18 +22,18 @@
                         @Model.ErrorMessage
                     </div>
                 }
-                <form asp-page="/SelectRoute" method="post">
+                <form asp-page="/SelectRoute" method="post" class="was-validated">
                     <div class="form-group">
-                        <input style="width: 100%" class="form-control" id="weight" name="weight" type="text" required placeholder="Weight (kg)" />
+                        <input style="width: 100%" class="form-control" id="weight" name="weight" type="number" step="any" required placeholder="Weight (kg)" />
                     </div>
                     <div class="form-group">
-                        <input style="width: 100%" class="form-control" id="height" name="height" type="text" required placeholder="Height (cm)" />
+                        <input style="width: 100%" class="form-control" id="height" name="height" type="number" step="any" required placeholder="Height (cm)" />
                     </div>
                     <div class="form-group">
-                        <input style="width: 100%" class="form-control" id="width" name="width" type="text" required placeholder="Width (cm)" />
+                        <input style="width: 100%" class="form-control" id="width" name="width" type="number" step="any" required placeholder="Width (cm)" />
                     </div>
                     <div class="form-group">
-                        <input style="width: 100%" class="form-control" id="depth" name="depth" type="text" required placeholder="Depth (cm)" />
+                        <input style="width: 100%" class="form-control" id="depth" name="depth" type="number" step="any" required placeholder="Depth (cm)" />
                     </div>
                     <div class="form-group">
                         <label for="categories">Category</label>
@@ -56,6 +56,37 @@
                     </div>
                     <button type="submit" class="btn btn-primary" style="float: right">Next</button>
                 </form>
+                <script>
+                    function weightCheck(thiss) {
+                        thiss.setCustomValidity( '' );
+                        if (thiss.value > 20)
+                            thiss.setCustomValidity( 'Weight cannot be larger than 20 kg.' );
+                    };
+                    function dimensionCheck(thiss) {
+                        thiss.setCustomValidity( '' );
+                        let weight = $("#weight").val();
+                        if (weight >= 5) {
+                            if (thiss.value > 200)
+                                thiss.setCustomValidity( 'Dimensions cannot be larger than 200 cm for parcels heavier than 5 kg.' );
+                        } else if (weight >= 1) {
+                            if (thiss.value > 40)
+                                thiss.setCustomValidity( 'Dimensions cannot be larger than 40 cm for 1-5 kg parcels.' );
+                        } else if (thiss.value > 25)
+                            thiss.setCustomValidity( 'Dimensions cannot be larger than 25 cm for parcels lighter than 1 kg.' );
+                    };
+
+                    function allCheck() {
+                        weightCheck($("#weight")[0]);
+                        dimensionCheck($("#height")[0]);
+                        dimensionCheck($("#width")[0]);
+                        dimensionCheck($("#depth")[0]);
+                    }
+
+                    document.querySelector('#weight').addEventListener('change', function(e) {allCheck()});
+                    document.querySelector('#height').addEventListener('change', function(e) {allCheck()});
+                    document.querySelector('#width').addEventListener('change', function(e) {allCheck()});
+                    document.querySelector('#depth').addEventListener('change', function(e) {allCheck()});
+                </script>
             </div>
         </div>
     </div>
