@@ -19,13 +19,6 @@ namespace OceanicAirlines.Pages
                 return Redirect("/Login");
             DataService service = new DataService();
             ListOfCities = service.GetCities();
-            //ListOfCities = new List<City>
-            //{
-            //    new City(0, "a"),
-            //    new City(1, "b"),
-            //    new City(2, "c"),
-
-            //};
             return null;
         }
 
