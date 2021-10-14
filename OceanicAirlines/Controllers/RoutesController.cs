@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using OceanicAirlines.Models;
 using OceanicAirlines.Services;
 using System.Collections.Generic;
@@ -17,13 +18,15 @@ namespace OceanicAirlines.Controllers
         }
 
         [HttpGet]
-        public List<SegmentViewModel> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
+        public ActionResult<List<SegmentViewModel>> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
         {
+            if(!this.ValidateAuthentication()) return Unauthorized();
+
             var isInputValid = _inputValidationService.IsInputValid(weight, depth, width, height, type);
 
-            if(!isInputValid) return new List<SegmentViewModel>();
+            if (!isInputValid) return new List<SegmentViewModel>();
 
-            return new List<SegmentViewModel>
+            return Ok(new List<SegmentViewModel>
             {
                 new SegmentViewModel {
                     EndCity = "Fredrikstad",
@@ -39,7 +42,17 @@ namespace OceanicAirlines.Controllers
                     Time = 2,
                     MaxWeight = 20
                 }
-            };
+            });
+        }
+
+        private bool IsAuthenticated()
+        {
+            if (Request.Headers.TryGetValue("Authorization", out StringValues value))
+            {
+                if (value.ToString() == "Basic OATLEIT") return true;
+            }
+
+            return false;
         }
     }
 }
