@@ -8,10 +8,11 @@ namespace OceanicAirlines.Infrastructure.Data
         {
             return new string[]
             {
-                "Weapons",
-                "Other",
-                "Toys",
-                "Food"
+                "recordeddelivery",
+                "weapons",
+                "liveanimals",
+                "cautiousparcels",
+                "refrigeratedgoods",
             };
         }
     }
