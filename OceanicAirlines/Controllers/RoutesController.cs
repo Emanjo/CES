@@ -44,15 +44,5 @@ namespace OceanicAirlines.Controllers
                 }
             });
         }
-
-        private bool IsAuthenticated()
-        {
-            if (Request.Headers.TryGetValue("Authorization", out StringValues value))
-            {
-                if (value.ToString() == "Basic OATLEIT") return true;
-            }
-
-            return false;
-        }
     }
 }
