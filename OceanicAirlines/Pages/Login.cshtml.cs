@@ -31,7 +31,7 @@ namespace OceanicAirlines.Pages
             if (CheckUserInfo(emailinput, passwordinput))
             {
                 HttpContext.Session.SetInt32("LoggedIn", 1);
-                return Redirect("/PackageInformation");
+                return Redirect("/MainPage");
             }
             else
             {
@@ -43,7 +43,7 @@ namespace OceanicAirlines.Pages
         public IActionResult OnGet()
         {
             if (HttpContext.Session.GetInt32("LoggedIn") == 1)
-                return Redirect("/PackageInformation");
+                return Redirect("/MainPage");
             return null;
         }
     }
