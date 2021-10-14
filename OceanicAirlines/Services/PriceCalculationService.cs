@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OceanicAirlines.Services
 {
-    public class PriceCalculationService
+    public class PriceCalculationService : IPriceCalculationService
     {
         public double GetPrice(double height, double width, double depth, double weight)
         {
@@ -17,14 +17,17 @@ namespace OceanicAirlines.Services
                 if (weight < 1)
                 {
                     returnPrice = 40;
-                } else if (weight <= 5)
+                }
+                else if (weight <= 5)
                 {
                     returnPrice = 60;
-                } else
+                }
+                else
                 {
                     returnPrice = 80;
                 }
-            } else if (group == DimensionCategory.B)
+            }
+            else if (group == DimensionCategory.B)
             {
                 if (weight < 1)
                 {
@@ -38,7 +41,8 @@ namespace OceanicAirlines.Services
                 {
                     returnPrice = 88;
                 }
-            } else if (group == DimensionCategory.C)
+            }
+            else if (group == DimensionCategory.C)
             {
                 if (weight < 1)
                 {
@@ -52,7 +56,8 @@ namespace OceanicAirlines.Services
                 {
                     returnPrice = 120;
                 }
-            } else
+            }
+            else
             {
                 returnPrice = -1;
             }

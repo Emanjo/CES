@@ -11,7 +11,7 @@ using OceanicAirlines.Models;
 
 namespace OceanicAirlines
 {
-    public class DataService
+    public class DataService : IDataService
     {
         private string connectionString = "Data Source=dbs-oa-t2.database.windows.net;Initial Catalog=db-oa-t2;Persist Security Info=True;User ID=oaadmin;Password=netcompany-123";
         public List<City> GetCities()

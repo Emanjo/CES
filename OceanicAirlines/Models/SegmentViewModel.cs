@@ -2,8 +2,6 @@
 {
     public class SegmentViewModel
     {
-        public SegmentViewModel() { }
-
         public SegmentViewModel(string startCity, string endCity, double cost, double time, double maxWeight)
         {
             StartCity = startCity;

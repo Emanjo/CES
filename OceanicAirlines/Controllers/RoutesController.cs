@@ -10,10 +10,16 @@ namespace OceanicAirlines.Controllers
     public class RoutesController : ControllerBase
     {
         private readonly IInputValidationService _inputValidationService;
+        private readonly IDataService _dataService;
+        private readonly IPriceCalculationService _priceCalculationService;
 
-        public RoutesController(IInputValidationService inputValidationService)
+        public RoutesController(IInputValidationService inputValidationService,
+            IDataService dataService,
+            IPriceCalculationService priceCalculationService)
         {
             _inputValidationService = inputValidationService;
+            _dataService = dataService;
+            _priceCalculationService = priceCalculationService;
         }
 
         [HttpGet]
@@ -23,12 +29,6 @@ namespace OceanicAirlines.Controllers
 
             if(!isInputValid) return new List<SegmentViewModel>();
 
-            List<SegmentViewModel> returnList = new List<SegmentViewModel>();
-
-            // ToDo dependany injection.
-            DataService _dataService = new DataService();
-            PriceCalculationService priceCalculationService = new PriceCalculationService();
-
             // Retrieve Oceanic segments
             List<SegmentDatabaseEntity> oceanicSegments = _dataService.GetSegments();
             List<SegmentViewModel> returnSegments = new List<SegmentViewModel>();
@@ -37,29 +37,13 @@ namespace OceanicAirlines.Controllers
                 returnSegments.Add(new SegmentViewModel(
                     segment.StartCity.Name,
                     segment.EndCity.Name,
-                    priceCalculationService.GetPrice(height.Value, width.Value, depth.Value, weight.Value),
+                    _priceCalculationService.GetPrice(height.Value, width.Value, depth.Value, weight.Value),
                     8,
-                    weight.Value
+                    20
                     ));
             }
 
-            return new List<SegmentViewModel>
-            {
-                new SegmentViewModel {
-                    EndCity = "Fredrikstad",
-                    StartCity = "Oslo",
-                    Cost = 20,
-                    Time = 2,
-                    MaxWeight = 20
-                },
-                new SegmentViewModel {
-                    EndCity = "Copenhagen",
-                    StartCity = "Helsingborg",
-                    Cost = 50,
-                    Time = 2,
-                    MaxWeight = 20
-                }
-            };
+            return returnSegments;
         }
     }
 }
