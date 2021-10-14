@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using OceanicAirlines.Models;
 using OceanicAirlines.Services;
 using System.Collections.Generic;
@@ -23,11 +24,13 @@ namespace OceanicAirlines.Controllers
         }
 
         [HttpGet]
-        public List<SegmentViewModel> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
+        public ActionResult<List<SegmentViewModel>> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
         {
+            if(!this.ValidateAuthentication()) return Unauthorized();
+
             var isInputValid = _inputValidationService.IsInputValid(weight, depth, width, height, type);
 
-            if(!isInputValid) return new List<SegmentViewModel>();
+            if (!isInputValid) return new List<SegmentViewModel>();
 
             // Retrieve Oceanic segments
             List<SegmentDatabaseEntity> oceanicSegments = _dataService.GetSegments();

@@ -2,3 +2,113 @@
 @model OceanicAirlines.Pages.SelectRouteModel
 @{
 }
+
+<div class="toast-header">
+    <img src="/img/primary.png" style="width: 100px">
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="fake-button fake-button-pressed">Send Package</div>
+    </div>
+</div>
+
+<div class="container-fluid d-flex h-100 justify-content-center col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8">
+    <div class="row align-self-center w-100">
+        <div class="mx-auto w-100">
+            <div class="jumbotron">
+                <h2>Choose route</h2>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+                <script defer>
+                        $(document).ready(function(){
+                            $("#radiofastest").click();
+                            $('#myTable').on('click', 'tbody tr', function(event) {
+                        $(this).addClass('highlight').siblings().removeClass('highlight');
+                        let val = $(this).find("td").first().html();
+                        $("#selectedroute").attr("value", val);
+                    });
+                        $("#myTable tbody tr").first().click();
+                        });
+
+                    function sortTable(n)
+                    {
+                     var table=$('#myTable');
+                     var tbody =$('#myTable tbody');
+
+                     tbody.find('tr').sort(function(a, b)
+                     {
+                        let aa = parseFloat($('td:nth-child('+n+')', a).text());
+                        let bb = parseFloat($('td:nth-child('+n+')', b).text());
+                        if ( a == b )
+                            return 0;
+                        return (aa < bb) ? -1 : 1;
+
+                     }).appendTo(tbody);
+                    }
+                </script>
+
+                <div style="float: right;">
+                    <form>
+                        <h3>Order by:</h3>
+                        <div class="radiorow">
+                            <input type="radio" id="radiofastest" name="radiocheapestfastet" value="Fastest" onclick="sortTable(3)">
+                            <label for="radiofastest">Fastest</label>
+                        </div>
+                        <div class="radiorow">
+                            <input type="radio" id="radiocheapest" name="radiocheapestfastet" value="Cheapest" onclick="sortTable(2)">
+                            <label for="radiocheapest">Cheapest</label>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+
+                <table class="table table-hover" id="myTable" cellspacing="0">
+                    <thead>
+                        <tr>
+                            @foreach (var property in Model.listofnames)
+                            {
+                                <th>@property.Name</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.routeDTOs)
+                        {
+                            <tr>
+                                @foreach (var property in item.GetType().GetProperties())
+                                {
+                                    <td>@property.GetValue(item)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <form asp-page="/DisplayInformation" method="post">
+                    <input type="hidden" id="weight" name="weight" value="@Model._weight">
+                    <input type="hidden" id="height" name="height" value="@Model._height">
+                    <input type="hidden" id="width" name="width" value="@Model._width">
+                    <input type="hidden" id="depth" name="depth" value="@Model._depth">
+                    <input type="hidden" id="categories" name="categories" value="@Model._categories">
+                    <input type="hidden" id="from" name="from" value="@Model._from">
+                    <input type="hidden" id="to" name="to" value="@Model._to">
+                    <input type="hidden" id="selectedroute" name="selectedroute" value="">
+                    @{
+                        var i = 0;
+                        foreach (var item in Model.routes)
+                        {
+                            var routestring = $"<input type=\"hidden\" id=\"route{i}\" name=\"route{i}\" value=\"{item}\">";
+                            @Html.Raw(routestring)
+                            ;
+                            i += 1;
+                        }
+                    }
+                    <button type="submit" class="btn btn-primary" style="float: right">Next</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,11 +13,15 @@ namespace OceanicAirlines.Controllers
     public class TestController : ControllerBase
     {
         [HttpGet]
-        public void Get()
+        public ActionResult Get()
         {
+            if (!this.ValidateAuthentication()) return Unauthorized();
+
             DataService service = new DataService();
             List<City> returnValue = service.GetCities();
             DataService service1 = new DataService();
+
+            return Ok();
         }
     }
 }
