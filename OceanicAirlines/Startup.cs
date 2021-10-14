@@ -29,8 +29,11 @@ namespace OceanicAirlines
             services.AddControllers();
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
+            services.AddHttpClient();
+
             services.AddSingleton<IInputValidationService, InputValidationService>();
             services.AddSingleton<ISupportedTypesDataService, SupportedTypesDataService>();
+            services.AddSingleton<IIntegrationApiClient, IntegrationApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
