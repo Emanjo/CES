@@ -4,6 +4,7 @@
     {
         A = 0,
         B = 1,
-        C = 2
+        C = 2,
+        undeliverable = 4
     }
 }

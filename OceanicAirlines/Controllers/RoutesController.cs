@@ -23,6 +23,26 @@ namespace OceanicAirlines.Controllers
 
             if(!isInputValid) return new List<SegmentViewModel>();
 
+            List<SegmentViewModel> returnList = new List<SegmentViewModel>();
+
+            // ToDo dependany injection.
+            DataService _dataService = new DataService();
+            PriceCalculationService priceCalculationService = new PriceCalculationService();
+
+            // Retrieve Oceanic segments
+            List<SegmentDatabaseEntity> oceanicSegments = _dataService.GetSegments();
+            List<SegmentViewModel> returnSegments = new List<SegmentViewModel>();
+            foreach (SegmentDatabaseEntity segment in oceanicSegments)
+            {
+                returnSegments.Add(new SegmentViewModel(
+                    segment.StartCity.Name,
+                    segment.EndCity.Name,
+                    priceCalculationService.GetPrice(height.Value, width.Value, depth.Value, weight.Value),
+                    8,
+                    weight.Value
+                    ));
+            }
+
             return new List<SegmentViewModel>
             {
                 new SegmentViewModel {
