@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OceanicAirlines.Models;
+using OceanicAirlines.Services;
 using System.Collections.Generic;
 
 namespace OceanicAirlines.Controllers
@@ -8,13 +9,19 @@ namespace OceanicAirlines.Controllers
     [ApiController]
     public class RoutesController : ControllerBase
     {
-        [HttpGet]
-        public List<Segment> Get([FromQuery] double? weigth, double? heigth, double? width, double? depth)
+        private readonly IInputValidationService _inputValidationService;
+
+        public RoutesController(IInputValidationService inputValidationService)
         {
-            if(heigth is null || weigth is null || width is null || depth is null)
-            {
-                return new List<Segment>();
-            };
+            _inputValidationService = inputValidationService;
+        }
+
+        [HttpGet]
+        public List<Segment> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
+        {
+            var isInputValid = _inputValidationService.IsInputValid(weight, depth, width, height, type);
+
+            if(!isInputValid) return new List<Segment>();
 
             return new List<Segment>
             {
@@ -27,8 +34,8 @@ namespace OceanicAirlines.Controllers
                 new Segment {
                     EndCity = "Copenhagen",
                     StartCity = "Helsingborg",
-                    Cost = 200,
-                    Time = 1
+                    Cost = 50,
+                    Time = 2
                 }
             };
         }
