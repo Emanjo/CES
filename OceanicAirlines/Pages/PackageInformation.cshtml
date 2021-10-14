@@ -86,16 +86,10 @@
                         let weight = $("#weight").val();
                         if (thiss.val() == "")
                             return;
-                        if (weight >= 5) {
-                            if (thiss.val() > 200)
-                                thiss[0].setCustomValidity( 'Dimensions cannot be larger than 200 cm for parcels heavier than 5 kg.' );
-                        } else if (weight >= 1) {
-                            if (thiss.val() > 40)
-                                thiss[0].setCustomValidity( 'Dimensions cannot be larger than 40 cm for 1-5 kg parcels.' );
-                        }
-                        if (thiss.val() <= 0) {
+                        if (thiss.val() <= 0)
                             thiss[0].setCustomValidity( 'Dimensions must be larger than 0 cm.' );
-                        }
+                        else if (thiss.value > 200)
+                            thiss.setCustomValidity( 'Dimensions cannot be larger than 200 cm' );
                     }
 
                     function citiesCheck() {

@@ -34,6 +34,7 @@ namespace OceanicAirlines
             services.AddSingleton<IIntegrationApiClient, IntegrationApiClient>();
             services.AddSingleton<IDataService, DataService>();
             services.AddSingleton<IPriceCalculationService, PriceCalculationService>();
+            services.AddSingleton<IDijsktraAlgorithmService, DijsktraAlgorithmService>();
             services.AddSingleton<ISegmentService, SegmentService>();
         }
 
