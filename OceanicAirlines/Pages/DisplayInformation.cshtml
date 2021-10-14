@@ -72,12 +72,12 @@
                             </tr>
                         </tbody>
                     </table>
-                    @if (Model._categories == "f")
+                    @if (Model._categories == "Weapons")
                     {
-                        <span style="border-bottom: 1px solid #dee2e6; border-top: 1px solid #dee2e6; padding: 10px; margin: 10px;">
-                            <label for="confirmweapons">I CONFIRM WEAPONS</label>
+                        <div style="border-bottom: 1px solid #dee2e6; border-top: 1px solid #dee2e6; padding: 10px; margin: 10px;">
+                            <label style="width: 50%" for="confirmweapons">This package requires legal documentation for weapons transportation. Please confirm this package includes proper documents.</label>
                             <input form="my_form" style="transform: scale(2); margin: 10px; padding: 10px;" type="checkbox" name="confirmweapons" id="confirmweapons" required />
-                        </span>
+                        </div>
                     }
                     <input form="my_form" type="hidden" id="weight" name="weight" value="@Model._weight">
                     <input form="my_form" type="hidden" id="height" name="height" value="@Model._height">

@@ -38,7 +38,27 @@ namespace OceanicAirlines.Pages
             _height = height;
             _width = width;
             _depth = depth;
-            _categories = categories;
+            switch (categories)
+            {
+                case "a":
+                    _categories = "Cautious Parcels";
+                    break;
+                case "b":
+                    _categories = "Livestock";
+                    break;
+                case "c":
+                    _categories = "Other";
+                    break;
+                case "d":
+                    _categories = "Recorded Delivery";
+                    break;
+                case "e":
+                    _categories = "Refrigerated Goods";
+                    break;
+                case "f":
+                    _categories = "Weapons";
+                    break;
+            }
             _from = from;
             _to = to;
             _selectedroute = selectedroutestr;
