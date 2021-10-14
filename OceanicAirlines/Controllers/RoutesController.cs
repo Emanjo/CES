@@ -17,21 +17,21 @@ namespace OceanicAirlines.Controllers
         }
 
         [HttpGet]
-        public List<Segment> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
+        public List<SegmentViewModel> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
         {
             var isInputValid = _inputValidationService.IsInputValid(weight, depth, width, height, type);
 
-            if(!isInputValid) return new List<Segment>();
+            if(!isInputValid) return new List<SegmentViewModel>();
 
-            return new List<Segment>
+            return new List<SegmentViewModel>
             {
-                new Segment {
+                new SegmentViewModel {
                     EndCity = "Fredrikstad",
                     StartCity = "Oslo",
                     Cost = 20,
                     Time = 2
                 },
-                new Segment {
+                new SegmentViewModel {
                     EndCity = "Copenhagen",
                     StartCity = "Helsingborg",
                     Cost = 50,

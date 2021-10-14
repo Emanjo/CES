@@ -7,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-
-
+using OceanicAirlines.Models;
 
 namespace OceanicAirlines
 {
@@ -31,16 +30,16 @@ namespace OceanicAirlines
             return cities;
         }
 
-        public List<Segment> GetSegments()
+        public List<SegmentDatabaseEntity> GetSegments()
         {
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
             SqlCommand command = new SqlCommand("SELECT startCity, cityStart.name, endCity, cityEnd.name FROM CompanySegments INNER JOIN Cities cityEnd ON CompanySegments.endCity = cityEnd.ID INNER JOIN Cities cityStart ON CompanySegments.startCity = cityStart.ID", connection);
             SqlDataReader reader = command.ExecuteReader();
-            List<Segment> segments = new List<Segment>();
+            List<SegmentDatabaseEntity> segments = new List<SegmentDatabaseEntity>();
             while (reader.Read())
             {
-                segments.Add(new Segment(
+                segments.Add(new SegmentDatabaseEntity(
                     new City(reader.GetInt32(0), reader.GetValue(1).ToString()),
                     new City(reader.GetInt32(2), reader.GetValue(3).ToString())
                     ));

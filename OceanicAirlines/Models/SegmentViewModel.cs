@@ -1,6 +1,6 @@
 ﻿namespace OceanicAirlines.Models
 {
-    public class SegmentModel
+    public class SegmentViewModel
     {
         public string StartCity { get; set; }
         public string EndCity { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OceanicAirlines.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace OceanicAirlines.Controllers
         public void Get()
         {
             DataService service = new DataService();
-            List<City> returnValue = service.getCities();
+            List<City> returnValue = service.GetCities();
             DataService service1 = new DataService();
         }
     }
