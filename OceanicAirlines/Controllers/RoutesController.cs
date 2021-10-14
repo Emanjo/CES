@@ -29,13 +29,15 @@ namespace OceanicAirlines.Controllers
                     EndCity = "Fredrikstad",
                     StartCity = "Oslo",
                     Cost = 20,
-                    Time = 2
+                    Time = 2,
+                    MaxWeight = 20
                 },
                 new SegmentViewModel {
                     EndCity = "Copenhagen",
                     StartCity = "Helsingborg",
                     Cost = 50,
-                    Time = 2
+                    Time = 2,
+                    MaxWeight = 20
                 }
             };
         }

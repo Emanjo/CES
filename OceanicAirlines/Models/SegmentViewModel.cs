@@ -6,6 +6,6 @@
         public string EndCity { get; set; }
         public double Cost { get; set; }
         public double Time { get; set; }
-        public double MaxWeigth => 20;
+        public double MaxWeight { get; set; }
     }
 }
