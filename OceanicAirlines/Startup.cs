@@ -22,7 +22,16 @@ namespace OceanicAirlines
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeFolder("/PackageInformation");
+                options.Conventions.AllowAnonymousToPage("/Login");
+            });
+            services.AddSession();
+            services.AddMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromHours(2);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,11 +47,8 @@ namespace OceanicAirlines
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
