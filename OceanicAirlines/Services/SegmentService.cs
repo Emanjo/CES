@@ -22,7 +22,7 @@ namespace OceanicAirlines.Services
             _inputValidationService = inputValidationService;
         }
 
-        public IEnumerable<SegmentOwner> GetExternalSegments(double? weight, double? depth, double? height, double? width, string type)
+        public IEnumerable<SegmentOwner> GetAllSegments(double? weight, double? depth, double? height, double? width, string type)
         {
             var oceanicSegments = GetInternalSegments(weight, depth, height, width, type)
                 .Select(s => new SegmentOwner { Owner = "Oceanic Airlines", Segment = s });
