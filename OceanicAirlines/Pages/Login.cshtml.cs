@@ -35,7 +35,7 @@ namespace OceanicAirlines.Pages
             }
             else
             {
-                ErrorMessage = "Bad email or password!";
+                ErrorMessage = "e-mail or password was not recognized. Please try again";
             }
             return null;
         }
