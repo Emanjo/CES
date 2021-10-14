@@ -17,22 +17,21 @@ namespace OceanicAirlines.Services
             _dataService = dataService;
         }
 
-        public List<int> RunRouteSearching(IEnumerable<SegmentOwner> supportedSegments, string startCity, string endCity, double balance)
+        public RouteOverall RunRouteSearching(IEnumerable<SegmentOwner> supportedSegments, string startCity, string endCity, double balance)
         {
-            int originCity = 0;
-            int destinationCity = 7;
-            int balance = 1;
-            CreateFakeData();
+            int originCity = GetCityId(startCity);
+            int destinationCity= GetCityId(endCity);                        
             FetchData(supportedSegments);
             DijsktraAlgorithm(originCity, destinationCity, balance);
             ShortestPath = new();
             ShortestPath.Add(destinationCity);
             CalculateShortestPath(ShortestPath, NodeList.ElementAt(destinationCity));
             ShortestPath.Reverse();
-            return ShortestPath;
+            double[] result = CalculatePriceAndTime(ShortestPath);            
+            return new RouteOverall(result[0],result[1], TranslateCityIdToName(ShortestPath, supportedSegments));
         }
 
-        private void DijsktraAlgorithm(int OriginCity, int DestinationCity, int Balance)
+        private void DijsktraAlgorithm(int OriginCity, int DestinationCity, double Balance)
         {
             NodeList.ElementAt(OriginCity).CostToStart = 0;
             List<AlgorithmNode> VisitingQueue = new();
@@ -41,7 +40,7 @@ namespace OceanicAirlines.Services
             {
                 VisitingQueue = VisitingQueue.OrderBy(node => node.CostToStart).ToList();
                 var node = VisitingQueue.First();
-                foreach (var cnn in node.Connections)//.OrderBy(node => node.Price))
+                foreach (var cnn in node.Connections)
                 {
                     var childNode = NodeList.ElementAt(cnn.Id);
                     if (childNode.Visited)
@@ -69,7 +68,7 @@ namespace OceanicAirlines.Services
             CalculateShortestPath(ShortestPath, NodeList.ElementAt(Node.NearestCityId));
         }
 
-        public double[] CalculatePriceAndTime(List<int> Path)
+        private double[] CalculatePriceAndTime(List<int> Path)
         {
             double[] ReturnDouble = new double[2] { 0.0, 0.0 };
             for (int i = 1; i < Path.Count; ++i)
@@ -88,39 +87,7 @@ namespace OceanicAirlines.Services
                 ReturnDouble[1] += CurrentTime;
             }
             return ReturnDouble;
-        }
-
-        private void CreateFakeData()
-        {
-            NodeList.Add(new AlgorithmNode(0, "Kair", Double.PositiveInfinity));
-            NodeList[0].Connections.Add(new ConnectedNode(1, 1, 1));
-            NodeList[0].Connections.Add(new ConnectedNode(2, 2, 2));
-            NodeList.Add(new AlgorithmNode(1, "Kapstad", Double.PositiveInfinity));
-            NodeList[1].Connections.Add(new ConnectedNode(0, 1, 1));
-            NodeList[1].Connections.Add(new ConnectedNode(5, 5, 5));
-            NodeList.Add(new AlgorithmNode(2, "Rome", Double.PositiveInfinity));
-            NodeList[2].Connections.Add(new ConnectedNode(4, 5, 5));
-            NodeList[2].Connections.Add(new ConnectedNode(6, 2, 2));
-            NodeList[2].Connections.Add(new ConnectedNode(0, 2, 2));
-            NodeList.Add(new AlgorithmNode(3, "Msocow", Double.PositiveInfinity));
-            NodeList[3].Connections.Add(new ConnectedNode(4, 1, 1));
-            NodeList[3].Connections.Add(new ConnectedNode(6, 3, 3));
-            NodeList[3].Connections.Add(new ConnectedNode(7, 4, 4));
-            NodeList.Add(new AlgorithmNode(4, "London", Double.PositiveInfinity));
-            NodeList[4].Connections.Add(new ConnectedNode(2, 5, 5));
-            NodeList[4].Connections.Add(new ConnectedNode(3, 1, 1));
-            NodeList.Add(new AlgorithmNode(5, "A", Double.PositiveInfinity));
-            NodeList[5].Connections.Add(new ConnectedNode(1, 5, 5));
-            NodeList[5].Connections.Add(new ConnectedNode(6, 8, 8));
-            NodeList.Add(new AlgorithmNode(6, "B", Double.PositiveInfinity));
-            NodeList[6].Connections.Add(new ConnectedNode(5, 8, 8));
-            NodeList[6].Connections.Add(new ConnectedNode(2, 2, 2));
-            NodeList[6].Connections.Add(new ConnectedNode(3, 3, 3));
-            NodeList[6].Connections.Add(new ConnectedNode(7, 8, 8));
-            NodeList.Add(new AlgorithmNode(7, "C", Double.PositiveInfinity));
-            NodeList[7].Connections.Add(new ConnectedNode(3, 4, 4));
-            NodeList[7].Connections.Add(new ConnectedNode(6, 8, 8));
-        }
+        }     
 
         private void FetchData(IEnumerable<SegmentOwner> segments)
         {
@@ -153,6 +120,43 @@ namespace OceanicAirlines.Services
                 }
             }
             return - 1;
+        }
+
+        private String GetCityName(int CityId)
+        {
+            foreach (City c in _dataService.GetCities())
+            {
+                if (CityId == c.Id)
+                {
+                    return c.Name;
+                }
+            }
+            return null;
+        }
+
+        private String GetSegmentOwenr(int originId, int endId, IEnumerable<SegmentOwner> Segments)
+        {
+            foreach(SegmentOwner sOwner in Segments)
+            {
+                if ((sOwner.Segment.StartCity.Equals(GetCityName(originId)) && sOwner.Segment.EndCity.Equals(GetCityName(endId)))
+                    || (sOwner.Segment.StartCity.Equals(GetCityName(endId)) && sOwner.Segment.EndCity.Equals(GetCityName(originId))))
+                    return sOwner.Owner;
+            }
+            return null;           
+        }
+
+        private List<Route> TranslateCityIdToName(List<int> ShortestPath, IEnumerable<SegmentOwner> Segments)
+        {
+            List<Route> RoutesToReturn = new();
+            for(int i = 0; i < ShortestPath.Count - 1; i++)
+            {
+                Route Route1 = new();
+                Route1.StartCity = GetCityName(i - 1);
+                Route1.EndCity = GetCityName(i);
+                Route1.Owner = GetSegmentOwenr(i - 1, i, Segments);
+                RoutesToReturn.Add(Route1);
+            }
+            return RoutesToReturn;
         }
     }
 }
