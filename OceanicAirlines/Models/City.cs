@@ -4,10 +4,12 @@
     {
         public int Id;
         public string Name { get; }
-        public City(int id, string name)
+        public string DanishName { get; }
+        public City(int id, string name, string danishName)
         {
             Id = id;
             Name = name;
+            DanishName = danishName;
         }
     }
 }

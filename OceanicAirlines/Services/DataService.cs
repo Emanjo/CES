@@ -18,12 +18,12 @@ namespace OceanicAirlines
         {
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM Cities", connection);
+            SqlCommand command = new SqlCommand("SELECT * FROM AllCities", connection);
             SqlDataReader reader = command.ExecuteReader();
             List<City> cities = new List<City>();
             while (reader.Read())
             {
-                cities.Add(new City(reader.GetInt32(0), reader.GetValue(1).ToString()));
+                cities.Add(new City(reader.GetInt32(0), reader.GetValue(1).ToString(), reader.GetValue(2).ToString()));
             }
             reader.Close();
             connection.Close();
@@ -34,14 +34,14 @@ namespace OceanicAirlines
         {
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT startCity, cityStart.name, endCity, cityEnd.name FROM CompanySegments INNER JOIN Cities cityEnd ON CompanySegments.endCity = cityEnd.ID INNER JOIN Cities cityStart ON CompanySegments.startCity = cityStart.ID", connection);
+            SqlCommand command = new SqlCommand("SELECT startCity, cityStart.name, cityStart.danishName, endCity, cityEnd.name, cityEnd.danishName FROM CompanySegments INNER JOIN AllCities cityEnd ON CompanySegments.endCity = cityEnd.ID INNER JOIN AllCities cityStart ON CompanySegments.startCity = cityStart.ID", connection);
             SqlDataReader reader = command.ExecuteReader();
             List<SegmentDatabaseEntity> segments = new List<SegmentDatabaseEntity>();
             while (reader.Read())
             {
                 segments.Add(new SegmentDatabaseEntity(
-                    new City(reader.GetInt32(0), reader.GetValue(1).ToString()),
-                    new City(reader.GetInt32(2), reader.GetValue(3).ToString())
+                    new City(reader.GetInt32(0), reader.GetValue(1).ToString(), reader.GetValue(2).ToString()),
+                    new City(reader.GetInt32(3), reader.GetValue(4).ToString(), reader.GetValue(5).ToString())
                     ));
             }
             reader.Close();
