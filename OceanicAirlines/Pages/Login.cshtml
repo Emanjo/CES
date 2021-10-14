@@ -7,13 +7,19 @@
         <div class="mx-auto w-100">
             <div class="text-center" style="margin-bottom: 100px"><img src="/img/primary.png" style="width: 200px"></div>
             <div class="jumbotron">
-                <form>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+                <form method="post">
                     <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="user@oceanicairlines.com">
+                        <input type="email" class="form-control" id="emailinput" name="emailinput" aria-describedby="emailHelp" placeholder="user@oceanicairways.com">
                         <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="password" class="form-control" id="passwordinput" name="passwordinput" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-primary col-12">Sign in</button>
                 </form>

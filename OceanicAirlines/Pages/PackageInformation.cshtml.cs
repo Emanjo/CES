@@ -5,8 +5,12 @@ namespace OceanicAirlines.Pages
 {
     public class PackageInformationModel : PageModel
     {
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (HttpContext.Session.GetInt32("LoggedIn") != 1)
+                return Redirect("/Login");
+            // Do more stuff
+            return null;
         }
     }
 }

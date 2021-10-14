@@ -28,7 +28,8 @@ namespace OceanicAirlines
             services.AddRazorPages();
             services.AddControllers();
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
+            services.AddSession();
+            services.AddMemoryCache();
             services.AddSingleton<IInputValidationService, InputValidationService>();
             services.AddSingleton<ISupportedTypesDataService, SupportedTypesDataService>();
         }
@@ -46,11 +47,8 @@ namespace OceanicAirlines
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
