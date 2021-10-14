@@ -12,9 +12,9 @@ namespace OceanicAirlines.Services
             _supportedTypesDataService = supportedTypesDataService;
         }
    
-        public bool IsInputValid(double? weight, double? depth, double? width, double? heigth, string type)
+        public bool IsInputValid(double? weight, double? depth, double? width, double? height, string type)
         {
-            if (heigth is null ||
+            if (height is null ||
                 weight is null ||
                 width is null ||
                 depth is null ||
@@ -25,7 +25,7 @@ namespace OceanicAirlines.Services
 
             if (weight > 20) return false;
 
-            if (IsDimensionValid(weight.Value, depth.Value, width.Value, heigth.Value) &&
+            if (IsDimensionValid(weight.Value, depth.Value, width.Value, height.Value) &&
                 IsTypeValid(type))
             {
                 return true;
@@ -45,13 +45,13 @@ namespace OceanicAirlines.Services
             return false;
         }
 
-        private bool IsDimensionValid(double weight, double depth, double width, double heigth)
+        private bool IsDimensionValid(double weight, double depth, double width, double height)
         {
-            if (weight < 1) return IsNotExceedingSizeLimitation(0.25, heigth, depth, width);
+            if (weight < 1) return IsNotExceedingSizeLimitation(0.25, height, depth, width);
 
-            if (weight >= 1 && weight <= 5) return IsNotExceedingSizeLimitation(0.4, heigth, depth, width);
+            if (weight >= 1 && weight < 5) return IsNotExceedingSizeLimitation(0.4, height, depth, width);
 
-            if (weight > 5) return IsNotExceedingSizeLimitation(2, heigth, depth, width);
+            if (weight >= 5) return IsNotExceedingSizeLimitation(2, height, depth, width);
 
             return false;
         }
