@@ -29,6 +29,7 @@
                         $(this).addClass('highlight').siblings().removeClass('highlight');
                         let val = $(this).find("td").first().html();
                         $("#selectedroute").attr("value", val);
+                        $('#selectedroutestr').val($('#route'+val).val());
                     });
                         $("#myTable tbody tr").first().click();
                         });
@@ -70,7 +71,7 @@
                         <tr>
                             @foreach (var property in Model.listofnames)
                             {
-                                <th>@property.Name</th>
+                                <th>@property.Name.Replace("_", " ")</th>
                             }
                         </tr>
                     </thead>
@@ -96,17 +97,18 @@
                     <input type="hidden" id="from" name="from" value="@Model._from">
                     <input type="hidden" id="to" name="to" value="@Model._to">
                     <input type="hidden" id="selectedroute" name="selectedroute" value="">
+                    <input type="hidden" id="selectedroutestr" name="selectedroutestr" value="">
                     @{
                         var i = 0;
                         foreach (var item in Model.routes)
                         {
+                            i += 1;
                             var routestring = $"<input type=\"hidden\" id=\"route{i}\" name=\"route{i}\" value=\"{item}\">";
                             @Html.Raw(routestring)
                             ;
-                            i += 1;
                         }
                     }
-                    <button type="submit" class="btn btn-primary" style="float: right">Next</button>
+                    <button id="abc" type="submit" class="btn btn-primary" style="float: right">Next</button>
                 </form>
             </div>
         </div>
