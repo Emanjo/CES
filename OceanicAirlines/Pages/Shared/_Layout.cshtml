@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
     <title>@ViewData["Title"] - OceanicAirlines</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <style>
@@ -13,6 +16,10 @@
 
         h2 {
             font-size: 20px;
+        }
+
+        h3 {
+            font-size: 16px;
         }
 
         .fake-button {
@@ -26,6 +33,32 @@
         .fake-button-pressed {
             background-color: #2E468C;
             color: lightgray;
+        }
+
+        th {
+            background-color: #EEE;
+        }
+
+        .table tbody tr.highlight td {
+            background-color: #ddd;
+        }
+
+        * {
+            user-select: none;
+        }
+
+        input[type=radio] {
+            margin-right: 20px;
+        }
+
+        .radiorow {
+            border-bottom: 1px solid #dee2e6;
+            width: 100%;
+            /*padding-bottom: 2px;*/
+        }
+
+        fieldset tr td label {
+            padding-right: 30px;
         }
     </style>
 </head>
@@ -46,10 +79,6 @@
             &copy; 2021 - OceanicAirlines - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
