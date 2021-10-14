@@ -15,9 +15,9 @@ namespace OceanicAirlines.Pages
             return Redirect("/PackageInformation");
         }
 
-        public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to, string route, string confirmweapons)
+        public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to, string route, string weaponsconfirmed)
         {
-            if (categories == "f" && confirmweapons != "on")
+            if (categories == "f" && weaponsconfirmed != "yes")
             {
                 ErrorMessage = "Weapons were not confirmed";
                 return;

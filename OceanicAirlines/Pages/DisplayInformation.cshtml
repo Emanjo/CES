@@ -76,7 +76,7 @@
                     {
                         <span style="border-bottom: 1px solid #dee2e6; border-top: 1px solid #dee2e6; padding: 10px; margin: 10px;">
                             <label for="confirmweapons">I CONFIRM WEAPONS</label>
-                            <input form="my_form" style="transform: scale(2); margin: 10px; padding: 10px;" type="checkbox" name="confirmweapons" id="confirmweapons" type="text" />
+                            <input form="my_form" style="transform: scale(2); margin: 10px; padding: 10px;" type="checkbox" name="confirmweapons" id="confirmweapons" required />
                         </span>
                     }
                     <input form="my_form" type="hidden" id="weight" name="weight" value="@Model._weight">
@@ -87,7 +87,28 @@
                     <input form="my_form" type="hidden" id="from" name="from" value="@Model._from">
                     <input form="my_form" type="hidden" id="to" name="to" value="@Model._to">
                     <input form="my_form" type="hidden" id="route" name="route" value="@Model._selectedroute">
+                    <input form="my_form" type="hidden" id="weaponsconfirmed" name="weaponsconfirmed" value="no">
                     <button form="my_form" type="submit" class="btn btn-primary" style="float: right">Send</button>
+                    <script>
+                            function weaponCheckmarkCheck() {
+                            let thiss = $("#confirmweapons");
+                            thiss[0].setCustomValidity( '' );
+                            if (thiss.val() != "on")
+                                thiss[0].setCustomValidity( 'You must tick off this box.' );
+                            else {
+                                thiss.attr("disabled", "disabled");
+                                $("#weaponsconfirmed").val("yes");
+                            }
+                        }
+
+                        function allCheck() {
+                            weaponCheckmarkCheck();
+                        }
+
+                        $(document).ready(function() {
+                        document.querySelector('#confirmweapons').addEventListener('change', function(e) {allCheck()});
+                        });
+                    </script>
                 </form>
             </div>
         </div>
