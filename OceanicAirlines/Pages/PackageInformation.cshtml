@@ -2,3 +2,49 @@
 @model OceanicAirlines.Pages.PackageInformationModel
 @{
 }
+
+<div class="toast-header">
+    <img src="/img/primary.png" style="width: 10%">
+
+    <div class="container-fluid d-flex justify-content-center">
+        <button id="send" value="send" >Send Package</button>
+    </div>
+</div>
+
+    
+<div class="mx-auto container-fluid d-flex justify-content-center">
+
+    <h1>
+        Package Information
+    </h1>
+        <form>
+            <div class="form-group">
+                <br />
+                <input id="weight" name="weight" type="text" required placeholder="Weight (kg)" />
+                <br />
+                <br />
+                <input id="height" name="height" type="text" required placeholder="Height (cm)" />
+                <br />
+                <br />
+                <input id="width" name="width" type="text" required placeholder="Width (cm)" />
+                <br />
+                <br />
+                <input id="depth" name="depth" type="text" required placeholder="Depth (cm)" />
+                <br />
+                <br />
+                <label for="categories">Category</label>
+                <select name="categories" , id="categories">
+                    <option value="" disable selected hidden>Select Category</option>
+                    <option value="a">Cautious Parcels</option>
+                    <option value="b">Livestock</option>
+                    <option value="c">Other</option>
+                    <option value="d">Recorded Delivery</option>
+                    <option value="e">Refrigerated Goods</option>
+                    <option value="f">Weapons</option>
+                </select>
+            </div>
+        </form>
+    
+    
+</div>
+
