@@ -1,7 +1,16 @@
-﻿namespace OceanicAirlines.Services
+﻿using OceanicAirlines.Infrastructure.Data;
+using System.Linq;
+
+namespace OceanicAirlines.Services
 {
     public class InputValidationService : IInputValidationService
     {
+        private readonly ISupportedTypesDataService _supportedTypesDataService;
+
+        public InputValidationService(ISupportedTypesDataService supportedTypesDataService)
+        {
+            _supportedTypesDataService = supportedTypesDataService;
+        }
    
         public bool IsInputValid(double? weight, double? depth, double? width, double? heigth, string type)
         {
@@ -16,7 +25,22 @@
 
             if (weight > 20) return false;
 
-            if (IsDimensionValid(weight.Value, depth.Value, width.Value, heigth.Value)) return true;
+            if (IsDimensionValid(weight.Value, depth.Value, width.Value, heigth.Value) &&
+                IsTypeValid(type))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsTypeValid(string type)
+        {
+            var types = _supportedTypesDataService.GetTypes();
+
+            var hasType = types.Any(t => t.ToLower() == type.ToLower());
+
+            if (hasType) return true;
 
             return false;
         }
