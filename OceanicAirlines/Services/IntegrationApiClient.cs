@@ -3,11 +3,9 @@ using OceanicAirlines.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.Serialization.Json;
+using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace OceanicAirlines.Services
 {
@@ -26,6 +24,8 @@ namespace OceanicAirlines.Services
         public IEnumerable<SegmentViewModel> GetSegments(Company company, double heigth, double depth, double width, double weigth, string type)
         {
             var client = _httpClientFactory.CreateClient();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "OATLEIT");
 
             switch (company)
             {
