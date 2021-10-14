@@ -2,3 +2,33 @@
 @model OceanicAirlines.Pages.ConfirmationModel
 @{
 }
+
+<div class="toast-header">
+    <img src="/img/primary.png" style="width: 100px">
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="fake-button fake-button-pressed">Send Package</div>
+    </div>
+</div>
+
+<div class="container-fluid d-flex h-100 justify-content-center col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8">
+    <div class="row align-self-center w-100">
+        <div class="mx-auto w-100">
+            <div class="jumbotron">
+                <h2>Confirmation</h2>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success" role="alert">
+                        @Model.SuccessMessage
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
