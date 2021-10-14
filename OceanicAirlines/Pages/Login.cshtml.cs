@@ -1,5 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OceanicAirlines.Models;
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 
@@ -10,20 +15,18 @@ namespace OceanicAirlines.Pages
         [ViewData]
         public string ErrorMessage { get; set; }
 
-        //public void OnGet()
-        //{
-        //    ViewData["confirmation"] = "bla";
-        //    Message = "hello";
-        //}
-
-        private string realUser = "casper.sloth@oceanicairways.com";
-        private string realPassword = "netcompany-123";
-
         private bool CheckUserInfo(string emailinput, string passwordinput)
         {
-            if (emailinput == realUser && passwordinput == realPassword)
-                return true;
-            return false;
+            DataService pw = new DataService();
+            string passwordHash = pw.GetPasswordHash(emailinput);
+            using (SHA1Managed sha1 = new SHA1Managed())
+            {
+                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordinput));
+                string hashString = Convert.ToBase64String(hash);
+                if (hashString == passwordHash)
+                    return true;
+                return false;
+            }
         }
 
         public IActionResult OnPost(string emailinput, string passwordinput)
