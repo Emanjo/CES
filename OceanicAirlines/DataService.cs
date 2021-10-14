@@ -15,7 +15,7 @@ namespace OceanicAirlines
     public class DataService
     {
         private string connectionString = "Data Source=dbs-oa-t2.database.windows.net;Initial Catalog=db-oa-t2;Persist Security Info=True;User ID=oaadmin;Password=netcompany-123";
-        public List<City> getCities()
+        public List<City> GetCities()
         {
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
@@ -31,7 +31,7 @@ namespace OceanicAirlines
             return cities;
         }
 
-        public List<Segment> getSegments()
+        public List<Segment> GetSegments()
         {
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
