@@ -38,6 +38,7 @@ namespace OceanicAirlines
             services.AddSingleton<IIntegrationApiClient, IntegrationApiClient>();
             services.AddSingleton<IDataService, DataService>();
             services.AddSingleton<IPriceCalculationService, PriceCalculationService>();
+            services.AddSingleton<IDijsktraAlgorithmService, DijsktraAlgorithmService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
