@@ -11,7 +11,7 @@ namespace OceanicAirlines.Models
         public double CostToStart { get; set; }
         public bool Visited { get; set; }
         public List<ConnectedNode> Connections;
-        public AlgorithmNode(AlgorithmNode nearest, int cityId, string name, double costToStart)
+        public AlgorithmNode(int cityId, string name, double costToStart)
         {
             NearestCityId = -1;
             CityId = cityId;
