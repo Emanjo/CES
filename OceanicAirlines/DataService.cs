@@ -35,21 +35,25 @@ namespace OceanicAirlines
         {
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM Segments", connection);
+            SqlCommand command = new SqlCommand("SELECT startCity, cityStart.name, endCity, cityEnd.name FROM CompanySegments INNER JOIN Cities cityEnd ON CompanySegments.endCity = cityEnd.ID INNER JOIN Cities cityStart ON CompanySegments.startCity = cityStart.ID", connection);
             SqlDataReader reader = command.ExecuteReader();
             List<Segment> segments = new List<Segment>();
             while (reader.Read())
             {
-                segments.Add(new Segment(new City(), new City()));
+                segments.Add(new Segment(
+                    new City(reader.GetInt32(0), reader.GetValue(1).ToString()),
+                    new City(reader.GetInt32(2), reader.GetValue(3).ToString())
+                    ));
             }
             reader.Close();
             connection.Close();
             return segments;
         }
-
+        /*
         public string getPasswordHash(string email)
         {
 
         }
+        */
     }
 }
