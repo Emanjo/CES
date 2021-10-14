@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OceanicAirlines.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,16 +12,19 @@ namespace OceanicAirlines.Services
         {
             List<AlgorithmNode> NodeList;
             List<int> ShortestPath;
+            DataService DataSerivceInstance;
 
             public Dijsktra()
             {
                 NodeList = new();
+                DataSerivceInstance = new();
             }
 
             public List<int> RunRouteSearching()
             {
                 int originCity = 0;
                 int destinationCity = 7;
+
                 int balance = 1;
                 CreateFakeData();
                 DijsktraAlgorithm(originCity, destinationCity, balance);
@@ -92,36 +96,59 @@ namespace OceanicAirlines.Services
 
             private void CreateFakeData()
             {
-                NodeList.Add(new AlgorithmNode(null, 0, "Kair", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 0, "Kair"));
                 NodeList[0].Connections.Add(new ConnectedNode(1, 1, 1));
                 NodeList[0].Connections.Add(new ConnectedNode(2, 2, 2));
-                NodeList.Add(new AlgorithmNode(null, 1, "Kapstad", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 1, "Kapstad"));
                 NodeList[1].Connections.Add(new ConnectedNode(0, 1, 1));
                 NodeList[1].Connections.Add(new ConnectedNode(5, 5, 5));
-                NodeList.Add(new AlgorithmNode(null, 2, "Rome", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 2, "Rome"));
                 NodeList[2].Connections.Add(new ConnectedNode(4, 5, 5));
                 NodeList[2].Connections.Add(new ConnectedNode(6, 2, 2));
                 NodeList[2].Connections.Add(new ConnectedNode(0, 2, 2));
-                NodeList.Add(new AlgorithmNode(null, 3, "Msocow", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 3, "Msocow"));
                 NodeList[3].Connections.Add(new ConnectedNode(4, 1, 1));
                 NodeList[3].Connections.Add(new ConnectedNode(6, 3, 3));
                 NodeList[3].Connections.Add(new ConnectedNode(7, 4, 4));
-                NodeList.Add(new AlgorithmNode(null, 4, "London", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 4, "London"));
                 NodeList[4].Connections.Add(new ConnectedNode(2, 5, 5));
                 NodeList[4].Connections.Add(new ConnectedNode(3, 1, 1));
-                NodeList.Add(new AlgorithmNode(null, 5, "A", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 5, "A"));
                 NodeList[5].Connections.Add(new ConnectedNode(1, 5, 5));
                 NodeList[5].Connections.Add(new ConnectedNode(6, 8, 8));
-                NodeList.Add(new AlgorithmNode(null, 6, "B", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 6, "B"));
                 NodeList[6].Connections.Add(new ConnectedNode(5, 8, 8));
                 NodeList[6].Connections.Add(new ConnectedNode(2, 2, 2));
                 NodeList[6].Connections.Add(new ConnectedNode(3, 3, 3));
                 NodeList[6].Connections.Add(new ConnectedNode(7, 8, 8));
-                NodeList.Add(new AlgorithmNode(null, 7, "C", Double.PositiveInfinity));
+                NodeList.Add(new AlgorithmNode( 7, "C"));
                 NodeList[7].Connections.Add(new ConnectedNode(3, 4, 4));
                 NodeList[7].Connections.Add(new ConnectedNode(6, 8, 8));
             }
+
+            private void FetchData()
+            {                
+                foreach(City c in DataSerivceInstance.GetCities())
+                {
+                    NodeList.Add(new AlgorithmNode(c.Id, c.Name));
+                }
+                foreach (AlgorithmNode aNode in NodeList)
+                {
+                    foreach(SegmentDatabaseEntity sdEntity in DataSerivceInstance.GetSegments())
+                    {
+                        if (sdEntity.StartCity.Equals(aNode.Name))
+                        {
+                            aNode.Connections.Add(new ConnectedNode(sdEntity.EndCity.Id, 0, 0));
+                        }
+                        if (sdEntity.EndCity.Equals(aNode.Name))
+                        {
+                            aNode.Connections.Add(new ConnectedNode(sdEntity.StartCity.Id, 0, 0));
+                        }
+                    }                    
+                }
+            }           
         }
+
 
         public class AlgorithmNode
         {
@@ -131,12 +158,12 @@ namespace OceanicAirlines.Services
             public double CostToStart { get; set; }
             public bool Visited { get; set; }
             public List<ConnectedNode> Connections;
-            public AlgorithmNode(AlgorithmNode nearest, int cityId, String name, double costToStart)
+            public AlgorithmNode(int cityId, String name)
             {
                 NearestCityId = -1;
                 CityId = cityId;
                 Name = name;
-                CostToStart = costToStart;
+                CostToStart = Double.PositiveInfinity;
                 Visited = false;
                 Connections = new();
             }
