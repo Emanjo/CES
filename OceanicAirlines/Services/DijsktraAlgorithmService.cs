@@ -17,13 +17,13 @@ namespace OceanicAirlines.Services
             _dataService = dataService;
         }
 
-        public List<int> RunRouteSearching(IEnumerable<SegmentOwner> segments)
+        public List<int> RunRouteSearching(IEnumerable<SegmentOwner> supportedSegments, string startCity, string endCity, double balance)
         {
             int originCity = 0;
             int destinationCity = 7;
             int balance = 1;
             CreateFakeData();
-            FetchData(segments);
+            FetchData(supportedSegments);
             DijsktraAlgorithm(originCity, destinationCity, balance);
             ShortestPath = new();
             ShortestPath.Add(destinationCity);
