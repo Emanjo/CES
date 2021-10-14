@@ -9,8 +9,13 @@ namespace OceanicAirlines.Controllers
     public class RoutesController : ControllerBase
     {
         [HttpGet]
-        public List<Segment> Get()
+        public List<Segment> Get([FromQuery] double? weigth, double? heigth, double? width, double? depth)
         {
+            if(heigth is null || weigth is null || width is null || depth is null)
+            {
+                return new List<Segment>();
+            };
+
             return new List<Segment>
             {
                 new Segment {
