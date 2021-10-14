@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label for="categories">Category</label>
-                        <select style="width: 100%" name="categories" , id="categories">
+                        <select style="width: 100%" name="categories" id="categories">
                             <option value="" disable selected hidden>Select Category</option>
                             <option value="a">Cautious Parcels</option>
                             <option value="b">Livestock</option>
@@ -48,15 +48,30 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <select style="=width: 100%" name="from" id="from">
+                        <label for="from">From</label>
+                        <select style="=width: 100%" name="from" id="from" required class="form-control">
+                            @foreach (var city in Model.ListOfCities)
+                                {
+                                    <option value="@city.Id">@city.Name</option>
+                                }
                         </select>
                     </div>
                     <div class="form-group">
-                        <input style="width: 100%" class="form-control" id="to" name="to" type="text" required placeholder="To (destination)" />
+                        <label for="to">To</label>
+                        <select style="=width: 100%" name="to" id="to" required class="form-control">
+                            @foreach (var city in Model.ListOfCities)
+                                {
+                                    <option value="@city.Id">@city.Name</option>
+                                }
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary" style="float: right">Next</button>
                 </form>
                 <script>
+                    $(document).ready(function(){
+                        $("#from option:nth-child(1)").attr("selected", "selected");
+                        $("#to option:nth-child(2").attr("selected", "selected");
+                    });
                     function weightCheck(thiss) {
                         thiss.setCustomValidity( '' );
                         if (thiss.value > 20)
@@ -74,18 +89,40 @@
                         } else if (thiss.value > 25)
                             thiss.setCustomValidity( 'Dimensions cannot be larger than 25 cm for parcels lighter than 1 kg.' );
                     };
+                    function citiesCheck() {
+                        let from = $("#from option:selected");
+                        let to = $("#to").find(":selected");
+                        from.parent()[0].setCustomValidity( '' );
+                        to.parent()[0].setCustomValidity( '' );
+                        if ( from.text() == to.text() ) {
+                            from.parent()[0].setCustomValidity( 'Origin and destination cannot be the same.' );
+                            to.parent()[0].setCustomValidity( 'Origin and destination cannot be the same.' );
+                        }
+                    }
+                    function categoryCheck() {
+                        let thiss = $("#categories option:selected");
+                        thiss.parent()[0].setCustomValidity( '' );
+
+                        if (thiss.text() == "Select Category")
+                            thiss.parent()[0].setCustomValidity( 'You must select a category' );
+                    }
 
                     function allCheck() {
                         weightCheck($("#weight")[0]);
                         dimensionCheck($("#height")[0]);
                         dimensionCheck($("#width")[0]);
                         dimensionCheck($("#depth")[0]);
+                        citiesCheck();
+                        categoryCheck();
                     }
 
                     document.querySelector('#weight').addEventListener('change', function(e) {allCheck()});
                     document.querySelector('#height').addEventListener('change', function(e) {allCheck()});
                     document.querySelector('#width').addEventListener('change', function(e) {allCheck()});
                     document.querySelector('#depth').addEventListener('change', function(e) {allCheck()});
+                    document.querySelector('#from').addEventListener('change', function(e) {allCheck()});
+                    document.querySelector('#to').addEventListener('change', function(e) {allCheck()});
+                    document.querySelector('#categories').addEventListener('change', function(e) {allCheck()});
                 </script>
             </div>
         </div>

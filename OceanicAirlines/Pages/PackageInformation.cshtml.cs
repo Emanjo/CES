@@ -11,13 +11,14 @@ namespace OceanicAirlines.Pages
         public string ErrorMessage { get; set; }
 
         [ViewData]
-        public List<City> listOfCities { get; set; }
+        public List<City> ListOfCities { get; set; }
 
         public IActionResult OnGet()
         {
             if (HttpContext.Session.GetInt32("LoggedIn") != 1)
                 return Redirect("/Login");
-            // Do more stuff
+            DataService service = new DataService();
+            ListOfCities = service.GetCities();
             return null;
         }
 
