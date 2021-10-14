@@ -49,11 +49,5 @@ namespace OceanicAirlines
             connection.Close();
             return segments;
         }
-        /*
-        public string getPasswordHash(string email)
-        {
-
-        }
-        */
     }
 }
