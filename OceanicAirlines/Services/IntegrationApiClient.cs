@@ -23,7 +23,7 @@ namespace OceanicAirlines.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public IEnumerable<Segment> GetSegments(Company company, double heigth, double depth, double width, double weigth, string type)
+        public IEnumerable<SegmentViewModel> GetSegments(Company company, double heigth, double depth, double width, double weigth, string type)
         {
             var client = _httpClientFactory.CreateClient();
 
@@ -46,7 +46,7 @@ namespace OceanicAirlines.Services
 
             var contentAsString = response.Content.ReadAsStringAsync().Result;
 
-            var result = JsonSerializer.Deserialize<IEnumerable<Segment>>(contentAsString, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            var result = JsonSerializer.Deserialize<IEnumerable<SegmentViewModel>>(contentAsString, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
             return result;
         }

@@ -4,47 +4,58 @@
 }
 
 <div class="toast-header">
-    <img src="/img/primary.png" style="width: 10%">
+    <img src="/img/primary.png" style="width: 100px">
 
     <div class="container-fluid d-flex justify-content-center">
-        <button id="send" value="send" >Send Package</button>
+        <div class="fake-button fake-button-pressed">Send Package</div>
     </div>
 </div>
 
-    
-<div class="mx-auto container-fluid d-flex justify-content-center">
-
-    <h1>
-        Package Information
-    </h1>
-        <form>
-            <div class="form-group">
-                <br />
-                <input id="weight" name="weight" type="text" required placeholder="Weight (kg)" />
-                <br />
-                <br />
-                <input id="height" name="height" type="text" required placeholder="Height (cm)" />
-                <br />
-                <br />
-                <input id="width" name="width" type="text" required placeholder="Width (cm)" />
-                <br />
-                <br />
-                <input id="depth" name="depth" type="text" required placeholder="Depth (cm)" />
-                <br />
-                <br />
-                <label for="categories">Category</label>
-                <select name="categories" , id="categories">
-                    <option value="" disable selected hidden>Select Category</option>
-                    <option value="a">Cautious Parcels</option>
-                    <option value="b">Livestock</option>
-                    <option value="c">Other</option>
-                    <option value="d">Recorded Delivery</option>
-                    <option value="e">Refrigerated Goods</option>
-                    <option value="f">Weapons</option>
-                </select>
+<div class="container-fluid d-flex h-100 justify-content-center col-xs-12 col-sm-6 col-md-4">
+    <div class="row align-self-center w-100">
+        <div class="mx-auto w-100">
+            <div class="jumbotron">
+                <h2>Package Information</h2>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+                <form action="/SelectRoute" method="post">
+                    <div class="form-group">
+                        <input style="width: 100%" class="form-control" id="weight" name="weight" type="text" required placeholder="Weight (kg)" />
+                    </div>
+                    <div class="form-group">
+                        <input style="width: 100%" class="form-control" id="height" name="height" type="text" required placeholder="Height (cm)" />
+                    </div>
+                    <div class="form-group">
+                        <input style="width: 100%" class="form-control" id="width" name="width" type="text" required placeholder="Width (cm)" />
+                    </div>
+                    <div class="form-group">
+                        <input style="width: 100%" class="form-control" id="depth" name="depth" type="text" required placeholder="Depth (cm)" />
+                    </div>
+                    <div class="form-group">
+                        <label for="categories">Category</label>
+                        <select style="width: 100%" name="categories" , id="categories">
+                            <option value="" disable selected hidden>Select Category</option>
+                            <option value="a">Cautious Parcels</option>
+                            <option value="b">Livestock</option>
+                            <option value="c">Other</option>
+                            <option value="d">Recorded Delivery</option>
+                            <option value="e">Refrigerated Goods</option>
+                            <option value="f">Weapons</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input style="width: 100%" class="form-control" id="from" name="from" type="text" required placeholder="From (Origin)" />
+                    </div>
+                    <div class="form-group">
+                        <input style="width: 100%" class="form-control" id="to" name="to" type="text" required placeholder="To (destination)" />
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="float: right">Next</button>
+                </form>
             </div>
-        </form>
-    
-    
+        </div>
+    </div>
 </div>
-

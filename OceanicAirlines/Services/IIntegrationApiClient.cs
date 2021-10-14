@@ -7,6 +7,6 @@ namespace OceanicAirlines.Services
 {
     public interface IIntegrationApiClient
     {
-        IEnumerable<Segment> GetSegments(Company company, double heigth, double depth, double width, double weigth, string type);
+        IEnumerable<SegmentViewModel> GetSegments(Company company, double heigth, double depth, double width, double weigth, string type);
     }
 }
