@@ -2,3 +2,77 @@
 @model OceanicAirlines.Pages.DisplayInformationModel
 @{
 }
+
+<div class="toast-header">
+    <img src="/img/primary.png" style="width: 100px">
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="fake-button fake-button-pressed">Send Package</div>
+    </div>
+</div>
+
+<div class="container-fluid d-flex h-100 justify-content-center col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8">
+    <div class="row align-self-center w-100">
+        <div class="mx-auto w-100">
+            <div class="jumbotron">
+                <h2>Package Information</h2>
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+                <form asp-page="/SelectRoute" method="post" id="my_form">
+                    <fieldset disabled="disabled">
+                        <table>
+                            <tr>
+                                <td><label for="weight">Weight</label></td>
+                                <td><input form="my_form" class="" id="weight" name="weight" type="text" disabled value="@Model._weight kg" /></td>
+                            </tr>
+                            <tr>
+                                <td><label for="weight">Dimensions</label></td>
+                                <td>
+                                    <input form="my_form" style="width: 32%; float: left" class="" id="height" name="height" type="text" disabled value="@Model._height m tall" />
+                                    <input form="my_form" style="width: 32%; float: left" class="" id="width" name="width" type="text" disabled value="@Model._width m wide" />
+                                    <input form="my_form" style="width: 32%" class="" id="wdepth name="depth" type="text" disabled value="@Model._depth m deep" />
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="category">Category</label></td>
+                                <td><input form="my_form" class="" id="category" name="category" type="text" disabled value="@Model._categories" /></td>
+                            </tr>
+                            <tr>
+                                <td><label for="from">From</label></td>
+                                <td><input form="my_form" class="" id="from" name="from" type="text" disabled value="@Model._from" /></td>
+                            </tr>
+                            <tr>
+                                <td><label for="category">To</label></td>
+                                <td><input form="my_form" class="" id="to" name="to" type="text" disabled value="@Model._to" /></td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <table class="table table-hover" id="myTable" cellspacing="0">
+                        <thead>
+                            <tr>
+                                @foreach (var property in Model.listofnames)
+                                {
+                                    <th>@property.Name</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @foreach (var property in Model.route.GetType().GetProperties())
+                                {
+                                    <td>@property.GetValue(Model.route)</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

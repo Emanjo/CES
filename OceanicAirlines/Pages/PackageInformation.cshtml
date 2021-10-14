@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div class="container-fluid d-flex h-100 justify-content-center col-xs-12 col-sm-6 col-md-4">
+<div class="container-fluid d-flex h-100 justify-content-center col-12 col-sm-9 col-md-8 col-lg-7 col-xl-6">
     <div class="row align-self-center w-100">
         <div class="mx-auto w-100">
             <div class="jumbotron">
@@ -22,7 +22,7 @@
                         @Model.ErrorMessage
                     </div>
                 }
-                <form action="/SelectRoute" method="post">
+                <form asp-page="/SelectRoute" method="post">
                     <div class="form-group">
                         <input style="width: 100%" class="form-control" id="weight" name="weight" type="text" required placeholder="Weight (kg)" />
                     </div>
