@@ -15,7 +15,7 @@ namespace OceanicAirlines.Services
             NodeList = new();
         }
 
-        public List<int> RunRouteSearching()
+        public List<int> RunRouteSearching(IEnumerable<SegmentOwner> segments)
         {
             int originCity = 0;
             int destinationCity = 7;
