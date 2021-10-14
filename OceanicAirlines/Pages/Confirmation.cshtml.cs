@@ -17,7 +17,7 @@ namespace OceanicAirlines.Pages
 
         public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to, string route, string weaponsconfirmed)
         {
-            if (categories == "f" && weaponsconfirmed != "yes")
+            if (categories == "Weapons" && weaponsconfirmed != "yes")
             {
                 ErrorMessage = "Weapons were not confirmed";
                 return;

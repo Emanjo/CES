@@ -22,7 +22,7 @@
                         @Model.ErrorMessage
                     </div>
                 }
-                <form asp-page="/SelectRoute" method="post" class="was-validated">
+                <form asp-page="/SelectRoute" method="post">
                     <div class="form-group">
                         <input style="width: 100%" class="form-control" id="weight" name="weight" type="number" step="any" required placeholder="Weight (kg)" />
                     </div>
@@ -49,20 +49,20 @@
                     </div>
                     <div class="form-group">
                         <label for="from">From</label>
-                        <select style="=width: 100%" name="from" id="from" required class="form-control">
+                        <select style="width: 100%" name="from" id="from" required class="form-control">
                             @foreach (var city in Model.ListOfCities)
-                                {
-                                    <option value="@city.Id">@city.Name</option>
-                                }
+                            {
+                                <option value="@city.Id">@city.Name</option>
+                            }
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="to">To</label>
-                        <select style="=width: 100%" name="to" id="to" required class="form-control">
+                        <select style="width: 100%" name="to" id="to" required class="form-control">
                             @foreach (var city in Model.ListOfCities)
-                                {
-                                    <option value="@city.Id">@city.Name</option>
-                                }
+                            {
+                                <option value="@city.Id">@city.Name</option>
+                            }
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" style="float: right">Next</button>
@@ -73,23 +73,25 @@
                         $("#to option:nth-child(2").attr("selected", "selected");
                     });
                     function weightCheck(thiss) {
-                        thiss.setCustomValidity( '' );
-                        if (thiss.value == "")
+                        thiss[0].setCustomValidity( '' );
+                        if (thiss.val() == "")
                             return;
-                        if (thiss.value > 20)
-                            thiss.setCustomValidity( 'Weight cannot be larger than 20 kg.' );
+                        if (thiss.val() > 20)
+                            thiss[0].setCustomValidity( 'Weight cannot be larger than 20 kg.' );
                         else if (thiss.value <= 0)
-                            thiss.setCustomValidity( 'Weight must be larger than 0 kg.' );
-                    };
+                            thiss[0].setCustomValidity( 'Weight must be larger than 0 kg.' );
+                    }
                     function dimensionCheck(thiss) {
-                        thiss.setCustomValidity( '' );
+                        thiss[0].setCustomValidity( '' );
                         let weight = $("#weight").val();
-                        if (thiss.value == "")
+                        if (thiss.val() == "")
                             return;
-                        else if (thiss.value > 200) {
+                        if (thiss.val() <= 0)
+                            thiss[0].setCustomValidity( 'Dimensions must be larger than 0 cm.' );
+                        else if (thiss.value > 200)
                             thiss.setCustomValidity( 'Dimensions cannot be larger than 200 cm' );
-                        }
-                    };
+                    }
+
                     function citiesCheck() {
                         let from = $("#from option:selected");
                         let to = $("#to").find(":selected");
@@ -109,10 +111,10 @@
                     }
 
                     function allCheck() {
-                        weightCheck($("#weight")[0]);
-                        dimensionCheck($("#height")[0]);
-                        dimensionCheck($("#width")[0]);
-                        dimensionCheck($("#depth")[0]);
+                        weightCheck($("#weight"));
+                        dimensionCheck($("#height"));
+                        dimensionCheck($("#width"));
+                        dimensionCheck($("#depth"));
                         citiesCheck();
                         categoryCheck();
                     }
