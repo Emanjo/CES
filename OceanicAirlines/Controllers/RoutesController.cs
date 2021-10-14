@@ -17,9 +17,9 @@ namespace OceanicAirlines.Controllers
         }
 
         [HttpGet]
-        public List<Segment> Get([FromQuery] double? weigth, double? height, double? width, double? depth, string type)
+        public List<Segment> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
         {
-            var isInputValid = _inputValidationService.IsInputValid(weigth, depth, width, height, type);
+            var isInputValid = _inputValidationService.IsInputValid(weight, depth, width, height, type);
 
             if(!isInputValid) return new List<Segment>();
 
