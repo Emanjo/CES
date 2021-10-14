@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OceanicAirlines.Infrastructure.Data;
+using OceanicAirlines.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +25,13 @@ namespace OceanicAirlines
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages(options =>
-            {
-                options.Conventions.AuthorizeFolder("/PackageInformation");
-                options.Conventions.AllowAnonymousToPage("/Login");
-            });
+            services.AddRazorPages();
+            services.AddControllers();
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
             services.AddSession();
             services.AddMemoryCache();
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromHours(2);
-            });
+            services.AddSingleton<IInputValidationService, InputValidationService>();
+            services.AddSingleton<ISupportedTypesDataService, SupportedTypesDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +52,7 @@ namespace OceanicAirlines
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
