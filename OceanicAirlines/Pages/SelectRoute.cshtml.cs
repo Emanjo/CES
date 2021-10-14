@@ -47,28 +47,31 @@ namespace OceanicAirlines.Pages
             _categories = categories;
             _from = from;
             _to = to;
-            //ErrorMessage = $"weight: {weight}. height: {height}. width: {width}. depth: {depth}. categories: {categories}. from: {from}. to: { to}. ";
+//            ErrorMessage = $"weight: {weight}. height: {height}. width: {width}. depth: {depth}. categories: {categories}. from: {from}. to: { to}. ";
             routeDTOs = new List<routeDTO>{
                 new routeDTO
                 {
                     ID = 1,
                     Cost = 80,
                     Duration = 16,
+                    Final_delivery_by = "Oceanic"
                 },
                 new routeDTO
                 {
                     ID = 2,
                     Cost = 40,
                     Duration = 32,
+                    Final_delivery_by = "Telstar"
                 },
                 new routeDTO
                 {
                     ID = 3,
                     Cost = 400,
                     Duration = 320,
+                    Final_delivery_by = "East India"
                 }
             };
-            routes = new List<string> { "abc", "def" };
+            routes = new List<string> { "abc", "def", "qwe" };
             listofnames = routeDTOs[0].GetType().GetProperties();
         }
     }

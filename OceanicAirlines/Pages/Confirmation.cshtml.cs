@@ -5,8 +5,25 @@ namespace OceanicAirlines.Pages
 {
     public class ConfirmationModel : PageModel
     {
-        public void OnGet()
+        [ViewData]
+        public string ErrorMessage { get; set; }
+        [ViewData]
+        public string SuccessMessage { get; set; }
+
+        public IActionResult OnGet()
         {
+            return Redirect("/PackageInformation");
+        }
+
+        public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to, string route, string confirmweapons)
+        {
+            if (categories == "f" && confirmweapons != "on")
+            {
+                ErrorMessage = "Weapons were not confirmed";
+                return;
+            }
+            //ErrorMessage = $"weight: {weight}. height: {height}. width: {width}. depth: {depth}. categories: {categories}. from: {from}. to: { to}. route: {route}";
+            SuccessMessage = "Your package has been submitted";
         }
     }
 }

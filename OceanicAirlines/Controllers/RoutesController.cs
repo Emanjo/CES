@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 using OceanicAirlines.Models;
 using OceanicAirlines.Services;
 using System.Collections.Generic;
@@ -10,39 +9,21 @@ namespace OceanicAirlines.Controllers
     [ApiController]
     public class RoutesController : ControllerBase
     {
-        private readonly IInputValidationService _inputValidationService;
+        private readonly ISegmentService _segmentService;
 
-        public RoutesController(IInputValidationService inputValidationService)
+        public RoutesController(ISegmentService segmentService)
         {
-            _inputValidationService = inputValidationService;
+            _segmentService = segmentService;
         }
 
         [HttpGet]
-        public ActionResult<List<SegmentViewModel>> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
+        public ActionResult<IEnumerable<SegmentViewModel>> Get([FromQuery] double? weight, double? height, double? width, double? depth, string type)
         {
             if(!this.ValidateAuthentication()) return Unauthorized();
 
-            var isInputValid = _inputValidationService.IsInputValid(weight, depth, width, height, type);
+            var result = _segmentService.GetInternalSegments(weight, depth, height, width, type);
 
-            if (!isInputValid) return new List<SegmentViewModel>();
-
-            return Ok(new List<SegmentViewModel>
-            {
-                new SegmentViewModel {
-                    EndCity = "Fredrikstad",
-                    StartCity = "Oslo",
-                    Cost = 20,
-                    Time = 2,
-                    MaxWeight = 20
-                },
-                new SegmentViewModel {
-                    EndCity = "Copenhagen",
-                    StartCity = "Helsingborg",
-                    Cost = 50,
-                    Time = 2,
-                    MaxWeight = 20
-                }
-            });
+            return Ok(result);
         }
     }
 }

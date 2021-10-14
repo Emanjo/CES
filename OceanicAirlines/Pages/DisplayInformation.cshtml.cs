@@ -24,13 +24,15 @@ namespace OceanicAirlines.Pages
         [ViewData]
         public string _to { get; set; }
         [ViewData]
+        public string _selectedroute { get; set; }
+        [ViewData]
         public routeDTO route { get; set; }
         public IActionResult OnGet()
         {
             return Redirect("/PackageInformation");
         }
 
-        public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to)
+        public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to, string selectedroutestr)
         {
             _weight = weight;
             _height = height;
@@ -39,12 +41,14 @@ namespace OceanicAirlines.Pages
             _categories = categories;
             _from = from;
             _to = to;
+            _selectedroute = selectedroutestr;
 
             route = new routeDTO
             {
                 ID = 1,
                 Cost = 80,
                 Duration = 16,
+                Final_delivery_by = "bla"
             };
             listofnames = route.GetType().GetProperties();
         }

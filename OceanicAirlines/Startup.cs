@@ -6,10 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OceanicAirlines.Infrastructure.Data;
 using OceanicAirlines.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OceanicAirlines
 {
@@ -36,6 +32,9 @@ namespace OceanicAirlines
             services.AddSingleton<IInputValidationService, InputValidationService>();
             services.AddSingleton<ISupportedTypesDataService, SupportedTypesDataService>();
             services.AddSingleton<IIntegrationApiClient, IntegrationApiClient>();
+            services.AddSingleton<IDataService, DataService>();
+            services.AddSingleton<IPriceCalculationService, PriceCalculationService>();
+            services.AddSingleton<ISegmentService, SegmentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

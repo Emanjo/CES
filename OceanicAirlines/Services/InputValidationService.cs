@@ -47,9 +47,9 @@ namespace OceanicAirlines.Services
 
         private bool IsDimensionValid(double weight, double depth, double width, double height)
         {
-            if (weight < 1) return IsNotExceedingSizeLimitation(0.25, height, depth, width);
+            if (weight < 1) return IsNotExceedingSizeLimitation(2, height, depth, width);
 
-            if (weight >= 1 && weight < 5) return IsNotExceedingSizeLimitation(0.4, height, depth, width);
+            if (weight >= 1 && weight < 5) return IsNotExceedingSizeLimitation(2, height, depth, width);
 
             if (weight >= 5) return IsNotExceedingSizeLimitation(2, height, depth, width);
 

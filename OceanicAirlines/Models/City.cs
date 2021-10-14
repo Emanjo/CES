@@ -2,8 +2,8 @@
 {
     public class City
     {
-        private int Id;
-        private string Name { get; }
+        public int Id;
+        public string Name { get; }
         public City(int id, string name)
         {
             Id = id;
