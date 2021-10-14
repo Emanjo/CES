@@ -6,10 +6,36 @@
     <title>@ViewData["Title"] - OceanicAirlines</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        h1 {
+            font-size: 36px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .fake-button {
+            border: black 1px solid;
+            padding: 3px;
+            background-color: #4AB0D9;
+            color: #444;
+            user-select: none;
+        }
+
+        .fake-button-pressed {
+            background-color: #2E468C;
+            color: lightgray;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        this line is on every page!
+        <noscript>
+            <div class="alert alert-danger" role="alert">
+                This website requires JavaScript. Please enable JavaScript.
+            </div>
+        </noscript>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
