@@ -22,42 +22,44 @@
                         @Model.ErrorMessage
                     </div>
                 }
-                <form asp-page="/SelectRoute" method="post" id="my_form">
+                <form asp-page="/Confirmation" method="post" id="my_form">
                     <fieldset disabled="disabled">
                         <table>
                             <tr>
                                 <td><label for="weight">Weight</label></td>
-                                <td><input form="my_form" class="" id="weight" name="weight" type="text" disabled value="@Model._weight kg" /></td>
+                                <td><input type="text" disabled value="@Model._weight kg" /></td>
                             </tr>
                             <tr>
                                 <td><label for="weight">Dimensions</label></td>
                                 <td>
-                                    <input form="my_form" style="width: 32%; float: left" class="" id="height" name="height" type="text" disabled value="@Model._height m tall" />
-                                    <input form="my_form" style="width: 32%; float: left" class="" id="width" name="width" type="text" disabled value="@Model._width m wide" />
-                                    <input form="my_form" style="width: 32%" class="" id="wdepth name="depth" type="text" disabled value="@Model._depth m deep" />
+                                    <input style="width: 32%; float: left" type="text" disabled value="@Model._height m tall" />
+                                    <input style="width: 32%; float: left" type="text" disabled value="@Model._width m wide" />
+                                    <input style="width: 32%" type="text" disabled value="@Model._depth m deep" />
 
                                 </td>
                             </tr>
                             <tr>
                                 <td><label for="category">Category</label></td>
-                                <td><input form="my_form" class="" id="category" name="category" type="text" disabled value="@Model._categories" /></td>
+                                <td><input type="text" disabled value="@Model._categories" /></td>
                             </tr>
                             <tr>
                                 <td><label for="from">From</label></td>
-                                <td><input form="my_form" class="" id="from" name="from" type="text" disabled value="@Model._from" /></td>
+                                <td><input type="text" disabled value="@Model._from" /></td>
                             </tr>
                             <tr>
                                 <td><label for="category">To</label></td>
-                                <td><input form="my_form" class="" id="to" name="to" type="text" disabled value="@Model._to" /></td>
+                                <td><input type="text" disabled value="@Model._to" /></td>
                             </tr>
                         </table>
                     </fieldset>
-                    <table class="table table-hover" id="myTable" cellspacing="0">
+                    <br />
+                    <h2>Selected route</h2>
+                    <table class="table" id="myTable" cellspacing="0">
                         <thead>
                             <tr>
                                 @foreach (var property in Model.listofnames)
                                 {
-                                    <th>@property.Name</th>
+                                    <th>@property.Name.Replace("_", " ")</th>
                                 }
                             </tr>
                         </thead>
@@ -70,6 +72,22 @@
                             </tr>
                         </tbody>
                     </table>
+                    @if (Model._categories == "f")
+                    {
+                        <span style="border-bottom: 1px solid #dee2e6; border-top: 1px solid #dee2e6; padding: 10px; margin: 10px;">
+                            <label for="confirmweapons">I CONFIRM WEAPONS</label>
+                            <input form="my_form" style="transform: scale(2); margin: 10px; padding: 10px;" type="checkbox" name="confirmweapons" id="confirmweapons" type="text" />
+                        </span>
+                    }
+                    <input form="my_form" type="hidden" id="weight" name="weight" value="@Model._weight">
+                    <input form="my_form" type="hidden" id="height" name="height" value="@Model._height">
+                    <input form="my_form" type="hidden" id="width" name="width" value="@Model._width">
+                    <input form="my_form" type="hidden" id="depth" name="depth" value="@Model._depth">
+                    <input form="my_form" type="hidden" id="categories" name="categories" value="@Model._categories">
+                    <input form="my_form" type="hidden" id="from" name="from" value="@Model._from">
+                    <input form="my_form" type="hidden" id="to" name="to" value="@Model._to">
+                    <input form="my_form" type="hidden" id="route" name="route" value="@Model._selectedroute">
+                    <button form="my_form" type="submit" class="btn btn-primary" style="float: right">Send</button>
                 </form>
             </div>
         </div>
