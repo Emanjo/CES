@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace OceanicAirlines.Pages
 {
-    public class Index1Model : PageModel
+    public class LoginModel : PageModel
     {
         public void OnGet()
         {
