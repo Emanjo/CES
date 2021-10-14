@@ -11,10 +11,16 @@ namespace OceanicAirlines.Controllers
     public class RoutesController : ControllerBase
     {
         private readonly IInputValidationService _inputValidationService;
+        private readonly IDataService _dataService;
+        private readonly IPriceCalculationService _priceCalculationService;
 
-        public RoutesController(IInputValidationService inputValidationService)
+        public RoutesController(IInputValidationService inputValidationService,
+            IDataService dataService,
+            IPriceCalculationService priceCalculationService)
         {
             _inputValidationService = inputValidationService;
+            _dataService = dataService;
+            _priceCalculationService = priceCalculationService;
         }
 
         [HttpGet]
@@ -26,23 +32,21 @@ namespace OceanicAirlines.Controllers
 
             if (!isInputValid) return new List<SegmentViewModel>();
 
-            return Ok(new List<SegmentViewModel>
+            // Retrieve Oceanic segments
+            List<SegmentDatabaseEntity> oceanicSegments = _dataService.GetSegments();
+            List<SegmentViewModel> returnSegments = new List<SegmentViewModel>();
+            foreach (SegmentDatabaseEntity segment in oceanicSegments)
             {
-                new SegmentViewModel {
-                    EndCity = "Fredrikstad",
-                    StartCity = "Oslo",
-                    Cost = 20,
-                    Time = 2,
-                    MaxWeight = 20
-                },
-                new SegmentViewModel {
-                    EndCity = "Copenhagen",
-                    StartCity = "Helsingborg",
-                    Cost = 50,
-                    Time = 2,
-                    MaxWeight = 20
-                }
-            });
+                returnSegments.Add(new SegmentViewModel(
+                    segment.StartCity.Name,
+                    segment.EndCity.Name,
+                    _priceCalculationService.GetPrice(height.Value, width.Value, depth.Value, weight.Value),
+                    8,
+                    20
+                    ));
+            }
+
+            return returnSegments;
         }
     }
 }
