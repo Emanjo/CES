@@ -93,7 +93,7 @@ namespace OceanicAirlines.Pages
                 if (item.Routes.Count > 0)
                 {
                     var duplicate = (routeDTOs.Count > 0 && routeDTOs[0].Cost == item.Cost
-                        && routeDTOs[0].Duration == item.Time && routeDTOs[0].Final_delivery_by.Equals(item.Routes.Last().Owner));
+                        && routeDTOs[0].Duration == item.Time && item.Routes.Last().Owner.Equals(routeDTOs[0].Final_delivery_by));
                     if (duplicate)
                         continue;
                     routeDTOs.Add(new routeDTO
@@ -101,7 +101,7 @@ namespace OceanicAirlines.Pages
                         ID = i,
                         Cost = item.Cost,
                         Duration = item.Time,
-                        Final_delivery_by = item.Routes.Last().Owner
+                        Final_delivery_by = item.Routes.Last().Owner ?? ""
                     });
                     i += 1;
                     var obj = JsonConvert.SerializeObject(item);
