@@ -30,13 +30,38 @@ namespace OceanicAirlines.Services
             var telstarSegments = _integrationApiClient.GetSegments(Company.Telestar, height.Value, depth.Value, width.Value, weight.Value, type)
                 .Select(s => new SegmentOwner { Owner = "Telestar", Segment = s });
 
+            var flippedTelestarSegments = FlipSegments(telstarSegments);
 
             var eastIndiaSegments = _integrationApiClient.GetSegments(Company.EastIndia, height.Value, depth.Value, width.Value, weight.Value, type)
                 .Select(s => new SegmentOwner { Owner = "East India", Segment = s });
 
-            var result = oceanicSegments.Concat(telstarSegments).Concat(eastIndiaSegments);
+            var flippedeastIndiaSegments = FlipSegments(telstarSegments);
+
+            var result = oceanicSegments.Concat(telstarSegments).Concat(eastIndiaSegments).Concat(flippedTelestarSegments).Concat(flippedeastIndiaSegments);
 
             return result;
+        }
+
+        private static List<SegmentOwner> FlipSegments(IEnumerable<SegmentOwner> segments)
+        {
+            var flippedTelestarSegments = new List<SegmentOwner>();
+
+            foreach (var segment in segments)
+            {
+                flippedTelestarSegments.Add(new SegmentOwner
+                {
+                    Owner = segment.Owner,
+                    Segment = new SegmentViewModel(segment.Segment.EndCity,
+                        segment.Segment.StartCity,
+                        segment.Segment.Cost,
+                        segment.Segment.Time,
+                        segment.Segment.MaxWeight
+                    )
+
+                });
+            }
+
+            return flippedTelestarSegments;
         }
 
         public IEnumerable<SegmentViewModel> GetInternalSegments(double? weight, double? depth, double? height, double? width, string type)
