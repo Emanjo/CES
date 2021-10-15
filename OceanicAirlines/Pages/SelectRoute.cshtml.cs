@@ -61,9 +61,21 @@ namespace OceanicAirlines.Pages
             _to = to;
             var segments = _SegmentService.GetAllSegments(Convert.ToDouble(weight), Convert.ToDouble(depth), Convert.ToDouble(height), Convert.ToDouble(width), _categories.ToLower().Replace(" ", ""));
             var ListOfRoutes = new List<Models.RouteOverall>();
-            ListOfRoutes.Add(_DijkstraService.RunRouteSearching(segments, from, to, 0.0));
-            ListOfRoutes.Add(_DijkstraService.RunRouteSearching(segments, from, to, 0.5));
-            ListOfRoutes.Add(_DijkstraService.RunRouteSearching(segments, from, to, 1.0));
+            try
+            {
+                ListOfRoutes.Add(_DijkstraService.RunRouteSearching(segments, from, to, 0.0));
+            }
+            catch (Exception) { }
+            try
+            {
+                ListOfRoutes.Add(_DijkstraService.RunRouteSearching(segments, from, to, 0.5));
+            }
+            catch (Exception) { }
+            try
+            {
+                ListOfRoutes.Add(_DijkstraService.RunRouteSearching(segments, from, to, 1.0));
+            }
+            catch (Exception) { }
 
             routeDTOs = new List<routeDTO>();
             routes = new List<string>();
