@@ -27,6 +27,8 @@ namespace OceanicAirlines.Services
             var oceanicSegments = GetInternalSegments(weight, depth, height, width, type)
                 .Select(s => new SegmentOwner { Owner = "Oceanic Airlines", Segment = s });
 
+            var flippedoceanicSegments = FlipSegments(oceanicSegments);
+
             var telstarSegments = _integrationApiClient.GetSegments(Company.Telestar, height.Value, depth.Value, width.Value, weight.Value, type)
                 .Select(s => new SegmentOwner { Owner = "Telestar", Segment = s });
 
@@ -37,7 +39,7 @@ namespace OceanicAirlines.Services
 
             var flippedeastIndiaSegments = FlipSegments(telstarSegments);
 
-            var result = oceanicSegments.Concat(telstarSegments).Concat(eastIndiaSegments).Concat(flippedTelestarSegments).Concat(flippedeastIndiaSegments);
+            var result = oceanicSegments.Concat(telstarSegments).Concat(eastIndiaSegments).Concat(flippedoceanicSegments).Concat(flippedTelestarSegments).Concat(flippedeastIndiaSegments);
 
             return result;
         }
