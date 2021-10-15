@@ -17,6 +17,8 @@ namespace OceanicAirlines.Pages
         [ViewData]
         public System.Reflection.PropertyInfo[] listofnames { get; set; }
         [ViewData]
+        public List<string> listofnames2 {  get; set; }
+        [ViewData]
         public string _weight { get; set; }
         [ViewData]
         public string _height { get; set; }
@@ -36,6 +38,8 @@ namespace OceanicAirlines.Pages
         public routeDTO route { get; set; }
         [ViewData]
         public RouteOverall routeDetailed { get; set; }
+        [ViewData]
+        public DataService _dataservice { get; set; }
         public IActionResult OnGet()
         {
             return Redirect("/PackageInformation");
@@ -102,8 +106,18 @@ namespace OceanicAirlines.Pages
                 Final_delivery_by = result.Routes.Count > 0 ? result.Routes.Last().Owner : "err"
             };
             listofnames = route.GetType().GetProperties();
+            listofnames2 = new List<string>();
+            foreach (var item in listofnames)
+            {
+                if (item.Name == "Cost")
+                    listofnames2.Add("Cost [USD]");
+                else if (item.Name == "Duration")
+                    listofnames2.Add("Duration [hours]");
+                else
+                    listofnames2.Add(item.Name.Replace("_", " "));
+            }
             routeDetailed = result;
-
+            _dataservice = new DataService();
         }
     }
 }

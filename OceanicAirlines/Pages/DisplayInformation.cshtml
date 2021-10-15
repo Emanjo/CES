@@ -44,11 +44,11 @@
                             </tr>
                             <tr>
                                 <td><label for="from">From</label></td>
-                                <td><input type="text" disabled value="@Model._from" /></td>
+                                <td><input type="text" disabled value="@Model._dataservice.GetDanishCity(Model._from)" /></td>
                             </tr>
                             <tr>
                                 <td><label for="category">To</label></td>
-                                <td><input type="text" disabled value="@Model._to" /></td>
+                                <td><input type="text" disabled value="@Model._dataservice.GetDanishCity(Model._to)" /></td>
                             </tr>
                         </table>
                     </fieldset>
@@ -57,9 +57,9 @@
                     <table class="table" id="myTable" cellspacing="0">
                         <thead>
                             <tr>
-                                @foreach (var property in Model.listofnames)
+                                @foreach (var name in Model.listofnames2)
                                 {
-                                    <th>@property.Name.Replace("_", " ")</th>
+                                    <th>@name</th>
                                 }
                             </tr>
                         </thead>
@@ -75,9 +75,9 @@
                     <h2>Detailed route</h2>
                     @foreach (var route in Model.routeDetailed.Routes)
                     {
-                        <div> @route.StartCity - @route.Owner </div>
+                        <div> @Model._dataservice.GetDanishCity(route.StartCity) - @route.Owner </div>
                     }
-                    <div>@Model.routeDetailed.Routes.Last().EndCity - @Model.routeDetailed.Routes.Last().Owner</div><br />
+                    <div>@Model._dataservice.GetDanishCity(Model.routeDetailed.Routes.Last().EndCity)</div><br />
                     @if (Model._categories == "Weapons")
                     {
                         <div style="border-bottom: 1px solid #dee2e6; border-top: 1px solid #dee2e6; padding: 10px; margin: 10px;">

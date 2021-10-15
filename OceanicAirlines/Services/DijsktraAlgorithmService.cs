@@ -111,14 +111,18 @@ namespace OceanicAirlines.Services
                     if (aNode.Name.Equals(sOwner.Segment.StartCity))
                     {
                         var id = GetCityId(sOwner.Segment.EndCity);
-                        if (id > 0)
+                        if (id < 1)
+                            aNode.Connections.Add(new ConnectedNode(1, 999999, 99999));
+                        else
                             aNode.Connections.Add(new ConnectedNode(id, sOwner.Segment.Time, sOwner.Segment.Cost));
                     }
                     if (aNode.Name.Equals(sOwner.Segment.EndCity))
                     {
                         var id = GetCityId(sOwner.Segment.StartCity);
-                        if (id > 0)
-                            aNode.Connections.Add(new ConnectedNode(GetCityId(sOwner.Segment.StartCity), sOwner.Segment.Time, sOwner.Segment.Cost));
+                        if (id < 1)
+                            aNode.Connections.Add(new ConnectedNode(1, 999999, 99999));
+                        else
+                            aNode.Connections.Add(new ConnectedNode(id, sOwner.Segment.Time, sOwner.Segment.Cost));
                     }
                 }
             }

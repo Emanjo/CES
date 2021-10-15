@@ -27,6 +27,8 @@ namespace OceanicAirlines.Pages
         [ViewData]
         public System.Reflection.PropertyInfo[] listofnames { get; set; }
         [ViewData]
+        public List<string> listofnames2 {  get; set; }
+        [ViewData]
         public string _weight { get; set; }
         [ViewData]
         public string _height { get; set; }
@@ -108,8 +110,18 @@ namespace OceanicAirlines.Pages
                 }
             }
             listofnames = (new routeDTO()).GetType().GetProperties();
+            listofnames2 = new List<string>();
+            foreach (var item in listofnames)
+            {
+                if (item.Name == "Cost")
+                    listofnames2.Add("Cost [USD]");
+                else if (item.Name == "Duration")
+                    listofnames2.Add("Duration [hours]");
+                else
+                    listofnames2.Add(item.Name.Replace("_", " "));
+            }
             if (routeDTOs.Count == 0)
-                ErrorMessage = $"No connections found between {from} and {to}. No possible routes due to either missing airport connections or connectivity loss with other transport services.";
+                ErrorMessage = $"No connections found between {from} and {to}. Possible reasons: missing airport connections, refusal from other transport services to carry cargo, or connectivity loss with other transport services.";
         }
     }
 }

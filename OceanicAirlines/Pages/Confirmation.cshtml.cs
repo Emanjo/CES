@@ -60,7 +60,7 @@ namespace OceanicAirlines.Pages
                 Convert.ToDouble(weight), Convert.ToDouble(width), Convert.ToDouble(height), Convert.ToDouble(depth), result.Cost, result.Time, categories);
 
             if (suc)
-                SuccessMessage = "Your package has been submitted.";
+                SuccessMessage = "Your parcel order has been submitted.";
             else
                 ErrorMessage = "The order could not be saved in the database.";
         }
