@@ -45,10 +45,6 @@ namespace OceanicAirlines.Pages
 
         public IActionResult OnGet()
         {
-            //if (HttpContext.Session.GetInt32("LoggedIn") != 1)
-            //    return Redirect("/Login");
-            //// Do more stuff
-            //return null;
             return Redirect("/PackageInformation");
         }
 
@@ -97,19 +93,23 @@ namespace OceanicAirlines.Pages
                 //{
                 //    str += item2.Owner + ", ";
                 //}
-                routeDTOs.Add(new routeDTO
+                if (item.Routes.Count > 0)
                 {
-                    ID = i,
-                    Cost = item.Cost,
-                    Duration = item.Time,
-                    Final_delivery_by = item.Routes.Count > 0 ? item.Routes.Last().Owner : "err"
-                });
-                i += 1;
-                var obj = JsonConvert.SerializeObject(item);
-                routes.Add(HttpUtility.HtmlEncode(obj));
-                    //JsonSerializer.Deserialize<IEnumerable<SegmentViewModel>>(contentAsString, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                    routeDTOs.Add(new routeDTO
+                    {
+                        ID = i,
+                        Cost = item.Cost,
+                        Duration = item.Time,
+                        Final_delivery_by = item.Routes.Last().Owner
+                    });
+                    i += 1;
+                    var obj = JsonConvert.SerializeObject(item);
+                    routes.Add(HttpUtility.HtmlEncode(obj));
+                }
             }
-            listofnames = routeDTOs[0].GetType().GetProperties();
+            listofnames = (new routeDTO()).GetType().GetProperties();
+            if (routeDTOs.Count == 0)
+                ErrorMessage = $"No connections found between {from} and {to}. No possible routes due to either missing airport connections or connectivity loss with other transport services.";
         }
     }
 }
