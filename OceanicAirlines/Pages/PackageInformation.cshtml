@@ -68,10 +68,6 @@
                     <button type="submit" class="btn btn-primary" style="float: right">Next</button>
                 </form>
                 <script>
-                    $(document).ready(function(){
-                        $("#from option:nth-child(1)").attr("selected", "selected");
-                        $("#to option:nth-child(2").attr("selected", "selected");
-                    });
                     function weightCheck(thiss) {
                         thiss[0].setCustomValidity( '' );
                         if (thiss.val() == "")
