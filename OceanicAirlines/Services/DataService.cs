@@ -145,5 +145,23 @@ namespace OceanicAirlines
 
             command.ExecuteNonQuery();
         }
+
+        public string GetDanishCity(string city)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            SqlCommand command = new SqlCommand("SELECT danishName FROM AllCities WHERE name ='" + city + "';", connection);
+            SqlDataReader reader = command.ExecuteReader();
+
+            string danishCity = "";
+            while (reader.Read())
+            {
+                danishCity = reader.GetValue(0).ToString();
+            }
+
+            reader.Close();
+            connection.Close();
+            return danishCity;
+        }
     }
 }

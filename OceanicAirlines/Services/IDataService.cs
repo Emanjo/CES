@@ -20,5 +20,6 @@ namespace OceanicAirlines
             double price,
             double time,
             string category);
+        string GetDanishCity(string city);
     }
 }
