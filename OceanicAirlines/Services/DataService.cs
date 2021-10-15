@@ -62,15 +62,88 @@ namespace OceanicAirlines
                 passwordHash = reader.GetValue(0).ToString();
             }
             
-            //while (reader.Read())
-           // {
-             //   users.Add(new User(reader.GetInt32(0), reader.GetValue(1).ToString(), reader.GetValue(2).ToString()));
-            //}
             reader.Close();
             connection.Close();
             return passwordHash;
-
         }
-            
+        
+        public int GetUserID(string email)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            SqlCommand command = new SqlCommand("SELECT ID FROM UserAccounts WHERE email ='" + email + "';", connection);
+            SqlDataReader reader = command.ExecuteReader();
+
+            int userID = 0;
+            while (reader.Read())
+            {
+                userID = reader.GetInt32(0);
+            }
+
+            reader.Close();
+            connection.Close();
+            return userID;
+        }
+
+        public void AddOrder(
+            int lastLocation,
+            string route,
+            int userID, 
+            double weight,
+            double width,
+            double height,
+            double depth,
+            double price,
+            double time,
+            string category)
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            SqlCommand command = new SqlCommand("INSERT INTO TrackingRecords (dateReceived, status, lastLocation, route, userID, weight, dimensions, price, time, category) VALUES('12/11/2021', 'Received', 7, 'Tripoli to Darfur', 1, 4, '12 x 5 x 13', 39, 10, 'other');", connection);
+
+            SqlParameter dateReceivedParam = new SqlParameter("@dateReceived", SqlDbType.VarChar);
+            dateReceivedParam.Value = DateTime.Now.ToString();
+            command.Parameters.Add(dateReceivedParam);
+
+            SqlParameter statusParam = new SqlParameter("status", SqlDbType.VarChar);
+            statusParam.Value = "Order placed";
+            command.Parameters.Add(statusParam);
+
+            SqlParameter lastLocationParam = new SqlParameter("lastLocation", SqlDbType.Int);
+            lastLocationParam.Value = lastLocation;
+            command.Parameters.Add(lastLocationParam);
+
+            SqlParameter routeParam = new SqlParameter("route", SqlDbType.VarChar);
+            routeParam.Value = route;
+            command.Parameters.Add(routeParam);
+
+            SqlParameter userIDParam = new SqlParameter("userID", SqlDbType.Int);
+            userIDParam.Value = userID;
+            command.Parameters.Add(userIDParam);
+
+            SqlParameter weightParam = new SqlParameter("weight", SqlDbType.Real);
+            weightParam.Value = weight;
+            command.Parameters.Add(weightParam);
+
+            SqlParameter dimensionsParam = new SqlParameter("dimensions", SqlDbType.VarChar);
+            string tempDimensions = "Width = " + width + "Height = " + height + "Depth = " + depth;
+            dimensionsParam.Value = tempDimensions;
+            command.Parameters.Add(dimensionsParam);
+
+            SqlParameter priceParam = new SqlParameter("price", SqlDbType.Real);
+            priceParam.Value = price;
+            command.Parameters.Add(priceParam);
+
+            SqlParameter timeParam = new SqlParameter("time", SqlDbType.Real);
+            timeParam.Value = time;
+            command.Parameters.Add(timeParam);
+
+            SqlParameter categoryParam = new SqlParameter("category", SqlDbType.VarChar);
+            categoryParam.Value = category;
+            command.Parameters.Add(categoryParam);
+
+            command.ExecuteNonQuery();
+        }
     }
 }

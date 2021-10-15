@@ -7,5 +7,18 @@ namespace OceanicAirlines
     {
         List<City> GetCities();
         List<SegmentDatabaseEntity> GetSegments();
+        int GetUserID(string email);
+        string GetPasswordHash(string email);
+        void AddOrder(
+            int lastLocation,
+            string route,
+            int userID,
+            double weight,
+            double width,
+            double height,
+            double depth,
+            double price,
+            double time,
+            string category);
     }
 }

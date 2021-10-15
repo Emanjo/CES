@@ -18,7 +18,7 @@ namespace OceanicAirlines.Controllers
             if (!this.ValidateAuthentication()) return Unauthorized();
 
             DataService service = new DataService();
-            List<City> returnValue = service.GetCities();
+            service.AddOrder(7, "Tripoli to Dafur", 3, 4, 0.5, 0.5, 0.5, 50, 20, "other");
             DataService service1 = new DataService();
 
             return Ok();
