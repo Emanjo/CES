@@ -54,7 +54,6 @@ namespace OceanicAirlines.Pages
                 cities.Add(GetCityId(c.StartCity));
             }
             cities.Add(GetCityId(result.Routes.Last().EndCity));
-            //ErrorMessage = $"weight: {weight}. height: {height}. width: {width}. depth: {depth}. categories: {categories}. from: {from}. to: { to}. route: {route}";
 
             var suc = _dataService.AddOrder(GetCityId(lastCity), string.Join(",", cities), HttpContext.Session.GetInt32("userID"),
                 Convert.ToDouble(weight), Convert.ToDouble(width), Convert.ToDouble(height), Convert.ToDouble(depth), result.Cost, result.Time, categories);
