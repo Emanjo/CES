@@ -110,28 +110,30 @@ namespace OceanicAirlines.Services
                 {
                     if (aNode.Name.Equals(sOwner.Segment.StartCity))
                     {
-                        aNode.Connections.Add(new ConnectedNode(GetCityId(sOwner.Segment.EndCity), sOwner.Segment.Time, sOwner.Segment.Cost));
+                        var id = GetCityId(sOwner.Segment.EndCity);
+                        if (id > 0)
+                            aNode.Connections.Add(new ConnectedNode(id, sOwner.Segment.Time, sOwner.Segment.Cost));
                     }
                     if (aNode.Name.Equals(sOwner.Segment.EndCity))
                     {
-                        aNode.Connections.Add(new ConnectedNode(GetCityId(sOwner.Segment.StartCity), sOwner.Segment.Time, sOwner.Segment.Cost));
+                        var id = GetCityId(sOwner.Segment.StartCity);
+                        if (id > 0)
+                            aNode.Connections.Add(new ConnectedNode(GetCityId(sOwner.Segment.StartCity), sOwner.Segment.Time, sOwner.Segment.Cost));
                     }
                 }
             }
         }
         private int GetCityId(String CityName)
         {
-            var i = 0;
             var cities = _dataService.GetCities();
             foreach (City c in cities)
             {
-                i++;
                 if (CityName.Equals(c.Name))
                 {
                     return c.Id;
                 }
             }
-            return - 1;
+            return -1;
         }
 
         private String GetCityName(int CityId)

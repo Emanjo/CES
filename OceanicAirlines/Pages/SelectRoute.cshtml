@@ -7,7 +7,7 @@
     <img src="/img/primary.png" style="width: 100px">
 
     <div class="container-fluid d-flex justify-content-center">
-        <div class="fake-button fake-button-pressed">Send Package</div>
+        <div class="fake-button fake-button-pressed" onclick="window.open('/PackageInformation', '_self')">Send Package</div>
     </div>
 </div>
 
@@ -105,10 +105,15 @@
                             i += 1;
                             var routestring = $"<input type=\"hidden\" id=\"route{i}\" name=\"route{i}\" value=\"{item}\">";
                             @Html.Raw(routestring)
-                            ;
+                        ;
                         }
                     }
-                    <button id="abc" type="submit" class="btn btn-primary" style="float: right">Next</button>
+                    <button id="abc" type="submit" class="btn btn-primary" style="float: right" 
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        @:disabled="disabled"
+                    }
+                    >Next</button>
                 </form>
             </div>
         </div>

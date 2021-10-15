@@ -34,6 +34,8 @@ namespace OceanicAirlines.Pages
         public string _selectedroute { get; set; }
         [ViewData]
         public routeDTO route { get; set; }
+        [ViewData]
+        public RouteOverall routeDetailed { get; set; }
         public IActionResult OnGet()
         {
             return Redirect("/PackageInformation");
@@ -100,6 +102,8 @@ namespace OceanicAirlines.Pages
                 Final_delivery_by = result.Routes.Count > 0 ? result.Routes.Last().Owner : "err"
             };
             listofnames = route.GetType().GetProperties();
+            routeDetailed = result;
+
         }
     }
 }

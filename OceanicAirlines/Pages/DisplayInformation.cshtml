@@ -7,7 +7,7 @@
     <img src="/img/primary.png" style="width: 100px">
 
     <div class="container-fluid d-flex justify-content-center">
-        <div class="fake-button fake-button-pressed">Send Package</div>
+        <div class="fake-button fake-button-pressed" onclick="window.open('/PackageInformation', '_self')">Send Package</div>
     </div>
 </div>
 
@@ -27,14 +27,14 @@
                         <table>
                             <tr>
                                 <td><label for="weight">Weight</label></td>
-                                <td><input type="text" disabled value="@Model._weight Weight (kg)" /></td>
+                                <td><input type="text" disabled value="@Model._weight kg" /></td>
                             </tr>
                             <tr>
                                 <td><label for="weight">Dimensions</label></td>
                                 <td>
-                                    <input style="width: 32%; float: left" type="text" disabled value="@Model._height Height (cm)" />
-                                    <input style="width: 32%; float: left" type="text" disabled value="@Model._width Width (cm)" />
-                                    <input style="width: 32%" type="text" disabled value="@Model._depth Depth (cm)" />
+                                    <input style="width: 32%; float: left" type="text" disabled value="@Model._height cm (Height)" />
+                                    <input style="width: 32%; float: left" type="text" disabled value="@Model._width cm (Width)" />
+                                    <input style="width: 32%" type="text" disabled value="@Model._depth cm (Depth)" />
 
                                 </td>
                             </tr>
@@ -72,6 +72,12 @@
                             </tr>
                         </tbody>
                     </table>
+                    <h2>Detailed route</h2>
+                    @foreach (var route in Model.routeDetailed.Routes)
+                    {
+                        <div> @route.StartCity - @route.Owner </div>
+                    }
+                    <div>@Model.routeDetailed.Routes.Last().EndCity - @Model.routeDetailed.Routes.Last().Owner</div><br />
                     @if (Model._categories == "Weapons")
                     {
                         <div style="border-bottom: 1px solid #dee2e6; border-top: 1px solid #dee2e6; padding: 10px; margin: 10px;">

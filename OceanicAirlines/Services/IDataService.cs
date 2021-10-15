@@ -9,7 +9,7 @@ namespace OceanicAirlines
         List<SegmentDatabaseEntity> GetSegments();
         int GetUserID(string email);
         string GetPasswordHash(string email);
-        void AddOrder(
+        bool AddOrder(
             int lastLocation,
             string route,
             int userID,
