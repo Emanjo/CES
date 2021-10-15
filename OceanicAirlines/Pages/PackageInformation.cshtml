@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label for="categories">Category</label>
-                        <select style="width: 100%" name="categories" id="categories">
+                        <select style="width: 100%" name="categories" id="categories" required class="form-control">
                             <option value="" disable selected hidden>Select Category</option>
                             <option value="a">Cautious Parcels</option>
                             <option value="b">Livestock</option>
@@ -78,7 +78,7 @@
                             return;
                         if (thiss.val() > 20)
                             thiss[0].setCustomValidity( 'Weight cannot be larger than 20 kg.' );
-                        else if (thiss.value <= 0)
+                        else if (thiss.val() <= 0)
                             thiss[0].setCustomValidity( 'Weight must be larger than 0 kg.' );
                     }
                     function dimensionCheck(thiss) {
@@ -88,8 +88,8 @@
                             return;
                         if (thiss.val() <= 0)
                             thiss[0].setCustomValidity( 'Dimensions must be larger than 0 cm.' );
-                        else if (thiss.value > 200)
-                            thiss.setCustomValidity( 'Dimensions cannot be larger than 200 cm' );
+                        else if (thiss.val() > 200)
+                            thiss[0].setCustomValidity( 'Dimensions cannot be larger than 200 cm' );
                     }
 
                     function citiesCheck() {
