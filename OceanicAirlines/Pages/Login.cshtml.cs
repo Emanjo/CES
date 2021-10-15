@@ -12,13 +12,19 @@ namespace OceanicAirlines.Pages
 {
     public class LoginModel : PageModel
     {
+        private readonly IDataService _dataService;
+
+        public LoginModel(IDataService dataService)
+        {
+            _dataService = dataService;
+        }
+
         [ViewData]
         public string ErrorMessage { get; set; }
 
         private bool CheckUserInfo(string emailinput, string passwordinput)
         {
-            DataService pw = new DataService();
-            string passwordHash = pw.GetPasswordHash(emailinput);
+            string passwordHash = _dataService.GetPasswordHash(emailinput);
             using (SHA1Managed sha1 = new SHA1Managed())
             {
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordinput));
@@ -34,6 +40,7 @@ namespace OceanicAirlines.Pages
             if (CheckUserInfo(emailinput, passwordinput))
             {
                 HttpContext.Session.SetInt32("LoggedIn", 1);
+                HttpContext.Session.SetInt32("userID", _dataService.GetUserID(emailinput));
                 return Redirect("/MainPage");
             }
             else
