@@ -1,5 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using OceanicAirlines.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Web;
 
 namespace OceanicAirlines.Pages
 {
@@ -32,12 +39,13 @@ namespace OceanicAirlines.Pages
             return Redirect("/PackageInformation");
         }
 
-        public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to, string selectedroutestr)
+        public void OnPost(string weight, string height, string width, string depth, string categories, string from, string to, string selectedroute, string selectedroutestr)
         {
             _weight = weight;
             _height = height;
             _width = width;
             _depth = depth;
+            _categories = categories;
             switch (categories)
             {
                 case "a":
@@ -63,12 +71,33 @@ namespace OceanicAirlines.Pages
             _to = to;
             _selectedroute = selectedroutestr;
 
+            // Default value
             route = new routeDTO
             {
-                ID = 1,
-                Cost = 80,
-                Duration = 16,
+                ID = 123,
+                Cost = 456,
+                Duration = 789,
                 Final_delivery_by = "bla"
+            };
+            listofnames = route.GetType().GetProperties();
+
+            var decoded = HttpUtility.HtmlDecode(selectedroutestr).Replace("\\\"", "\"");
+            //var result = JsonSerializer.Deserialize<Models.RouteOverall>(decoded, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            //    IgnoreReadOnlyFields = true,
+            //    IgnoreReadOnlyProperties = true,
+            //    AllowTrailingCommas= true
+            //});
+            var result = JsonConvert.DeserializeObject<RouteOverall>(decoded);
+            if (result == null)
+                return;
+            if (result.Routes == null)
+                return;
+            route = new routeDTO
+            {
+                ID = Convert.ToInt32(selectedroute),
+                Cost = result.Cost,
+                Duration = result.Time,
+                Final_delivery_by = result.Routes.Count > 0 ? result.Routes.Last().Owner : "err"
             };
             listofnames = route.GetType().GetProperties();
         }

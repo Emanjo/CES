@@ -25,7 +25,7 @@ namespace OceanicAirlines.Services
             DijsktraAlgorithm(originCity, destinationCity, balance);
             ShortestPath = new();
             ShortestPath.Add(destinationCity);
-            CalculateShortestPath(ShortestPath, NodeList.ElementAt(destinationCity));
+            CalculateShortestPath(ShortestPath, NodeList.ElementAt(destinationCity-1));
             ShortestPath.Reverse();
             double[] result = CalculatePriceAndTime(ShortestPath);            
             return new RouteOverall(result[0],result[1], TranslateCityIdToName(ShortestPath, supportedSegments));
@@ -33,16 +33,16 @@ namespace OceanicAirlines.Services
 
         private void DijsktraAlgorithm(int OriginCity, int DestinationCity, double Balance)
         {
-            NodeList.ElementAt(OriginCity).CostToStart = 0;
+            NodeList.ElementAt(OriginCity-1).CostToStart = 0;
             List<AlgorithmNode> VisitingQueue = new();
-            VisitingQueue.Add(NodeList.ElementAt(OriginCity));
+            VisitingQueue.Add(NodeList.ElementAt(OriginCity-1));
             while (VisitingQueue.Count != 0)
             {
                 VisitingQueue = VisitingQueue.OrderBy(node => node.CostToStart).ToList();
                 var node = VisitingQueue.First();
                 foreach (var cnn in node.Connections)
                 {
-                    var childNode = NodeList.ElementAt(cnn.Id);
+                    var childNode = NodeList.ElementAt(cnn.Id-1);
                     if (childNode.Visited)
                         continue;
                     if (node.CostToStart + (cnn.Time * (1 - Balance) + cnn.Price * (Balance)) < childNode.CostToStart)
@@ -65,26 +65,35 @@ namespace OceanicAirlines.Services
             if (Node.NearestCityId == -1)
                 return;
             ShortestPath.Add(Node.NearestCityId);
-            CalculateShortestPath(ShortestPath, NodeList.ElementAt(Node.NearestCityId));
+            CalculateShortestPath(ShortestPath, NodeList.ElementAt(Node.NearestCityId-1));
         }
 
         private double[] CalculatePriceAndTime(List<int> Path)
         {
             double[] ReturnDouble = new double[2] { 0.0, 0.0 };
-            for (int i = 1; i < Path.Count; ++i)
+            for (int i = 0; i < Path.Count-1; ++i)
             {
-                double CurrentPrice = -1.0;
-                double CurrentTime = -1.0;
-                foreach (ConnectedNode cNode in NodeList.ElementAt(Path[i]).Connections)
+                var connections = NodeList.ElementAt(Path[i]-1).Connections;
+                var doBreak = false;
+                foreach (ConnectedNode cNode in connections)
                 {
-                    if (cNode.Id == Path[i - 1])
+                    double CurrentPrice = 0;
+                    double CurrentTime = 0;
+                    for (int j = i+1; j < Path.Count; ++j )
                     {
-                        CurrentPrice = cNode.Price;
-                        CurrentTime = cNode.Time;
+                        if (cNode.Id == Path[j])
+                        {
+                            CurrentPrice = cNode.Price;
+                            CurrentTime = cNode.Time;
+                            doBreak = true;
+                            break;
+                        }
                     }
+                    ReturnDouble[0] += CurrentPrice;
+                    ReturnDouble[1] += CurrentTime;
+                    if (doBreak)
+                        break;
                 }
-                ReturnDouble[0] += CurrentPrice;
-                ReturnDouble[1] += CurrentTime;
             }
             return ReturnDouble;
         }     
@@ -99,11 +108,11 @@ namespace OceanicAirlines.Services
             {
                 foreach (SegmentOwner sOwner in segments)
                 {
-                    if (aNode.Equals(sOwner.Segment.StartCity))
+                    if (aNode.Name.Equals(sOwner.Segment.StartCity))
                     {
                         aNode.Connections.Add(new ConnectedNode(GetCityId(sOwner.Segment.EndCity), sOwner.Segment.Time, sOwner.Segment.Cost));
                     }
-                    if (aNode.Equals(sOwner.Segment.EndCity))
+                    if (aNode.Name.Equals(sOwner.Segment.EndCity))
                     {
                         aNode.Connections.Add(new ConnectedNode(GetCityId(sOwner.Segment.StartCity), sOwner.Segment.Time, sOwner.Segment.Cost));
                     }
@@ -112,8 +121,11 @@ namespace OceanicAirlines.Services
         }
         private int GetCityId(String CityName)
         {
-            foreach (City c in _dataService.GetCities())
+            var i = 0;
+            var cities = _dataService.GetCities();
+            foreach (City c in cities)
             {
+                i++;
                 if (CityName.Equals(c.Name))
                 {
                     return c.Id;
@@ -148,12 +160,12 @@ namespace OceanicAirlines.Services
         private List<Route> TranslateCityIdToName(List<int> ShortestPath, IEnumerable<SegmentOwner> Segments)
         {
             List<Route> RoutesToReturn = new();
-            for(int i = 0; i < ShortestPath.Count - 1; i++)
+            for(int i = 1; i < ShortestPath.Count; i++)
             {
                 Route Route1 = new();
-                Route1.StartCity = GetCityName(i - 1);
-                Route1.EndCity = GetCityName(i);
-                Route1.Owner = GetSegmentOwenr(i - 1, i, Segments);
+                Route1.StartCity = GetCityName(ShortestPath[i - 1]);
+                Route1.EndCity = GetCityName(ShortestPath[i]);
+                Route1.Owner = GetSegmentOwenr(ShortestPath[i - 1], ShortestPath[i], Segments);
                 RoutesToReturn.Add(Route1);
             }
             return RoutesToReturn;

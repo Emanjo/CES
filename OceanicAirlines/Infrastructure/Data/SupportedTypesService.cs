@@ -13,6 +13,7 @@ namespace OceanicAirlines.Infrastructure.Data
                 "liveanimals",
                 "cautiousparcels",
                 "refrigeratedgoods",
+                "other"
             };
         }
     }

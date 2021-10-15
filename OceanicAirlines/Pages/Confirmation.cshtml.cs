@@ -23,6 +23,10 @@ namespace OceanicAirlines.Pages
                 return;
             }
             //ErrorMessage = $"weight: {weight}. height: {height}. width: {width}. depth: {depth}. categories: {categories}. from: {from}. to: { to}. route: {route}";
+            DataService service = new DataService();
+
+
+
             SuccessMessage = "Your package has been submitted";
         }
     }
