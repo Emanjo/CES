@@ -52,7 +52,7 @@
                         <select style="width: 100%" name="from" id="from" required class="form-control">
                             @foreach (var city in Model.ListOfCities)
                             {
-                                <option value="@city.Id">@city.DanishName</option>
+                                <option value="@city.Name">@city.DanishName</option>
                             }
                         </select>
                     </div>
@@ -61,7 +61,7 @@
                         <select style="width: 100%" name="to" id="to" required class="form-control">
                             @foreach (var city in Model.ListOfCities)
                             {
-                                <option value="@city.Id">@city.DanishName</option>
+                                <option value="@city.Name">@city.DanishName</option>
                             }
                         </select>
                     </div>

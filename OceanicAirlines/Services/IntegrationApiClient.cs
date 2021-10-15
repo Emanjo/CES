@@ -42,13 +42,22 @@ namespace OceanicAirlines.Services
 
             var response = client.GetAsync($"routes?weight={weigth.ToString(nfi)}&height={heigth.ToString(nfi)}&width={width.ToString(nfi)}&depth={depth.ToString(nfi)}&type={type.ToString(nfi)}").Result;
 
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                response.EnsureSuccessStatusCode();
 
-            var contentAsString = response.Content.ReadAsStringAsync().Result;
+                var contentAsString = response.Content.ReadAsStringAsync().Result;
 
-            var result = JsonSerializer.Deserialize<IEnumerable<SegmentViewModel>>(contentAsString, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                var result = JsonSerializer.Deserialize<IEnumerable<SegmentViewModel>>(contentAsString, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
-            return result;
+                return result;
+
+            }
+            catch (Exception)
+            {
+                return new List<SegmentViewModel>();
+            }
+
         }
 
         private static string ToStringWithNoComma(double value)
