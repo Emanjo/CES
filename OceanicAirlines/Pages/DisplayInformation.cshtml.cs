@@ -52,47 +52,13 @@ namespace OceanicAirlines.Pages
             _width = width;
             _depth = depth;
             _categories = categories;
-            switch (categories)
-            {
-                case "a":
-                    _categories = "Cautious Parcels";
-                    break;
-                case "b":
-                    _categories = "Livestock";
-                    break;
-                case "c":
-                    _categories = "Other";
-                    break;
-                case "d":
-                    _categories = "Recorded Delivery";
-                    break;
-                case "e":
-                    _categories = "Refrigerated Goods";
-                    break;
-                case "f":
-                    _categories = "Weapons";
-                    break;
-            }
             _from = from;
             _to = to;
             _selectedroute = selectedroutestr;
 
-            // Default value
-            route = new routeDTO
-            {
-                ID = 123,
-                Cost = 456,
-                Duration = 789,
-                Final_delivery_by = "bla"
-            };
-            listofnames = route.GetType().GetProperties();
+            listofnames = (new routeDTO()).GetType().GetProperties();
 
             var decoded = HttpUtility.HtmlDecode(selectedroutestr).Replace("\\\"", "\"");
-            //var result = JsonSerializer.Deserialize<Models.RouteOverall>(decoded, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            //    IgnoreReadOnlyFields = true,
-            //    IgnoreReadOnlyProperties = true,
-            //    AllowTrailingCommas= true
-            //});
             var result = JsonConvert.DeserializeObject<RouteOverall>(decoded);
             if (result == null)
                 return;
