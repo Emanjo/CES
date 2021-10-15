@@ -11,6 +11,7 @@ namespace OceanicAirlines.Infrastructure.Data
                 "recordeddelivery",
                 "weapons",
                 "liveanimals",
+                "livestock",
                 "cautiousparcels",
                 "refrigeratedgoods",
                 "other"

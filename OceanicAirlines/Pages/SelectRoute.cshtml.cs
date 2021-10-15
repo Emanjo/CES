@@ -90,13 +90,12 @@ namespace OceanicAirlines.Pages
             var i = 1;
             foreach (var item in ListOfRoutes)
             {
-                //var str = "";
-                //foreach (var item2 in item.Routes)
-                //{
-                //    str += item2.Owner + ", ";
-                //}
                 if (item.Routes.Count > 0)
                 {
+                    var duplicate = (routeDTOs.Count > 0 && routeDTOs[0].Cost == item.Cost
+                        && routeDTOs[0].Duration == item.Time && routeDTOs[0].Final_delivery_by.Equals(item.Routes.Last().Owner));
+                    if (duplicate)
+                        continue;
                     routeDTOs.Add(new routeDTO
                     {
                         ID = i,
